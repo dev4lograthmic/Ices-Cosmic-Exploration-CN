@@ -86,15 +86,18 @@ jobs:
         if: steps.check.outputs.publish == 'true'
         shell: pwsh
         run: |
-          $ver = '${{ steps.ver.outputs.version }}'
-          $repo = Get-Content repo.json -Raw | ConvertFrom-Json
+          $ver  = '${{ steps.ver.outputs.version }}'
           $url  = "https://github.com/${{ github.repository }}/releases/download/v$ver/latest.zip"
-          $repo[0].AssemblyVersion     = $ver
-          $repo[0].DownloadLinkInstall = $url
-          $repo[0].DownloadLinkUpdate  = $url
-          $repo[0].LastUpdate          = [int][double]::Parse((Get-Date -UFormat %s))
-          $repo | ConvertTo-Json -Depth 10 | Set-Content -Path repo.json -Encoding utf8
-          Get-Content repo.json
+          $now  = [int][double]::Parse((Get-Date -UFormat %s))
+          $path = 'repo.json'
+          $t = Get-Content $path -Raw
+          # 仅替换字段值，保留原文件格式/字段顺序
+          $t = [regex]::Replace($t, '("AssemblyVersion"\s*:\s*)"[^"]*"',     ('${1}"' + $ver + '"'))
+          $t = [regex]::Replace($t, '("DownloadLinkInstall"\s*:\s*)"[^"]*"', ('${1}"' + $url + '"'))
+          $t = [regex]::Replace($t, '("DownloadLinkUpdate"\s*:\s*)"[^"]*"',  ('${1}"' + $url + '"'))
+          $t = [regex]::Replace($t, '("LastUpdate"\s*:\s*)\d+',              ('${1}'   + $now))
+          Set-Content -Path $path -Value $t -NoNewline -Encoding utf8
+          Get-Content $path
 
       - name: Create Release
         if: steps.check.outputs.publish == 'true'
