@@ -1,0 +1,114 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [ Main-Branch ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+      DALAMUD_HOME: ${{ github.workspace }}\dalamud
+      DOTNET_NOLOGO: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Download Dalamud
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile dalamud.zip
+          Expand-Archive -Force dalamud.zip "$env:DALAMUD_HOME"
+
+      - name: Build
+        run: dotnet build ICE/ICE.csproj --configuration Release
+
+      - name: Locate package (latest.zip)
+        id: pkg
+        shell: pwsh
+        run: |
+          $zip = Get-ChildItem -Path ICE/bin -Recurse -Filter latest.zip -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $zip) { throw 'latest.zip not found under ICE/bin' }
+          Write-Host "Found package: $($zip.FullName)"
+          "path=$($zip.FullName)" >> $env:GITHUB_OUTPUT
+
+      - name: Compute version
+        id: ver
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF -like 'refs/tags/v*') {
+            $ver = $env:GITHUB_REF.Substring('refs/tags/v'.Length)
+          } else {
+            [xml]$csproj = Get-Content ICE/ICE.csproj
+            $ver = ($csproj.Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1).Trim()
+          }
+          Write-Host "Version: $ver"
+          "version=$ver" >> $env:GITHUB_OUTPUT
+
+      - name: Check if release already exists
+        id: check
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "v${{ steps.ver.outputs.version }}"
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "Release $tag already exists - skipping publish."
+            "publish=false" >> $env:GITHUB_OUTPUT
+          } else {
+            "publish=true" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Update repo.json
+        if: steps.check.outputs.publish == 'true'
+        shell: pwsh
+        run: |
+          $ver = '${{ steps.ver.outputs.version }}'
+          $repo = Get-Content repo.json -Raw | ConvertFrom-Json
+          $url  = "https://github.com/${{ github.repository }}/releases/download/v$ver/latest.zip"
+          $repo[0].AssemblyVersion     = $ver
+          $repo[0].DownloadLinkInstall = $url
+          $repo[0].DownloadLinkUpdate  = $url
+          $repo[0].LastUpdate          = [int][double]::Parse((Get-Date -UFormat %s))
+          $repo | ConvertTo-Json -Depth 10 | Set-Content -Path repo.json -Encoding utf8
+          Get-Content repo.json
+
+      - name: Create Release
+        if: steps.check.outputs.publish == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.version }}
+          name: v${{ steps.ver.outputs.version }}
+          files: ${{ steps.pkg.outputs.path }}
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+
+      - name: Commit repo.json to Main-Branch
+        if: steps.check.outputs.publish == 'true'
+        shell: pwsh
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin Main-Branch
+          git checkout -B Main-Branch origin/Main-Branch
+          git add repo.json
+          git commit -m "ci: repo.json -> v${{ steps.ver.outputs.version }}" 
+          git push origin Main-Branch
