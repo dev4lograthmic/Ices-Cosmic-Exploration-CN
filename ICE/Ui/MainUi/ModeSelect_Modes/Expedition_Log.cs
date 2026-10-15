@@ -46,7 +46,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
             if (ImGui.BeginChild("Detailed Class View", new(rightPanelWidth, childHeight), true))
             {
-                if (ImGui_Ice.SliderButton("Hide Completed", "Hide Completed", ref HideCompleted))
+                if (ImGui_Ice.SliderButton("Hide Completed", "隐藏已完成", ref HideCompleted))
                 {
                     ResetCompletionTable();
                 }
@@ -85,7 +85,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 ImGui.Image(allClassTexture.Handle, new Vector2(20, 20));
 
                 ImGui.TableNextColumn();
-                if (ImGui.Selectable("All Classes", SelectedJob == 0, ImGuiSelectableFlags.SpanAllColumns))
+                if (ImGui.Selectable("所有职业", SelectedJob == 0, ImGuiSelectableFlags.SpanAllColumns))
                 {
                     SelectedJob = 0;
                     ResetCompletionTable();
@@ -109,12 +109,12 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                 if (SelectedJob != 0)
                 {
                     var classIcon = CosmicHelper.ClassInfoDict[SelectedJob];
-                    DrawImageTabButton("Class Progress", ProgressTabId, ref selectedTabId, classIcon.JobIcon.GetWrapOrEmpty());
+                    DrawImageTabButton("职业进度", ProgressTabId, ref selectedTabId, classIcon.JobIcon.GetWrapOrEmpty());
                 }
                 else
                 {
                     var allClassTexture = Svc.Texture.GetFromManifestResource(Assembly.GetExecutingAssembly(), "ICE.Resources.CosmicClassTracker.png").GetWrapOrEmpty();
-                    DrawImageTabButton("All Class progresses", ProgressTabId, ref selectedTabId, allClassTexture);
+                    DrawImageTabButton("所有职业进度", ProgressTabId, ref selectedTabId, allClassTexture);
                 }
 
                 foreach (var moon in CosmicMoonRegistry.All.OrderBy(m => m.ExpeditionTabIndex))
@@ -318,12 +318,12 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                 if (ImGui.BeginTable("Class Progress: All", 7, ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders | ImGuiTableFlags.SizingFixedFit))
                 {
-                    ImGui.TableSetupColumn("Job");
-                    ImGui.TableSetupColumn("Relic");
+                    ImGui.TableSetupColumn("职业");
+                    ImGui.TableSetupColumn("宇宙工具");
                     ImGui.TableSetupColumn("##Relic_XPBar");
-                    ImGui.TableSetupColumn("Score");
+                    ImGui.TableSetupColumn("技巧点");
                     ImGui.TableSetupColumn("##Score_XPBar");
-                    ImGui.TableSetupColumn("Mastery");
+                    ImGui.TableSetupColumn("精通");
                     ImGui.TableSetupColumn("##Mastery_XPBar");
 
                     ImGui.TableHeadersRow();
@@ -414,7 +414,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui_Ice.Table_FullCenterText($"Class Score");
+                    ImGui_Ice.Table_FullCenterText($"职业技巧点");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
@@ -436,7 +436,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui_Ice.Table_FullCenterText($"Mastery Score");
+                    ImGui_Ice.Table_FullCenterText($"精通技巧点");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
@@ -458,7 +458,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text($"Stage");
+                    ImGui.Text($"阶段");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
