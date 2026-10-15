@@ -120,7 +120,8 @@ public static class CosmicTables
         protected void SetFlagsAndNames(params JobFilter[] flags)
         {
             SetFlags(flags);
-            SetNames(flags.Select(f => f.ToString()).ToArray());
+            // SetNames(flags.Select(f => f.ToString()).ToArray());
+            SetNames("刻木匠", "锻铁匠", "铸甲匠", "雕金匠", "制革匠", "裁衣匠", "炼金术士", "烹调师", "采矿工", "园艺工", "捕鱼人");
         }
 
         protected void SetNames(params string[] names) => FlagNames = names;

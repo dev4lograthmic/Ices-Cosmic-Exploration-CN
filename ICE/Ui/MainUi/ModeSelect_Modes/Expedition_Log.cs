@@ -458,7 +458,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Text($"阶段");
+                    ImGui.Text($"宇宙工具等级");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
