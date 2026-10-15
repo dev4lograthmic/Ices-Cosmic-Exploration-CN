@@ -58,18 +58,18 @@ public static unsafe partial class CosmicHelper
     {
         return jobId switch
         {
-            8 => "Carpenter",
-            9 => "Blacksmith",
-            10 => "Armorer",
-            11 => "Goldsmith",
-            12 => "Leatherworker",
-            13 => "Weaver",
-            14 => "Alchemist",
-            15 => "Culinarian",
-            16 => "Miner",
-            17 => "Botanist",
-            18 => "Fisher",
-            _ => "Unknown"
+            8 => "刻木匠",
+            9 => "锻铁匠",
+            10 => "铸甲匠",
+            11 => "雕金匠",
+            12 => "制革匠",
+            13 => "裁衣匠",
+            14 => "炼金术士",
+            15 => "烹调师",
+            16 => "采矿工",
+            17 => "园艺工",
+            18 => "捕鱼人",
+            _ => "未知"
         };
     }
 
@@ -150,7 +150,7 @@ public static unsafe partial class CosmicHelper
     public static void CrafterManagement(CosmicHelper.CosmicInfo mission, uint id, ImGuiTreeNodeFlags openDefault = ImGuiTreeNodeFlags.DefaultOpen)
     {
         var job = mission.Jobs.First(x => CosmicHelper.CrafterJobList.Contains(x));
-        ImGui.Text("Recipe Detailed Info");
+        ImGui.Text("配方详细信息");
 
         Dictionary<ushort, CosmicHelper.CraftingInfo> missionCrafts = new();
         foreach (var craft in mission.Crafts_Main)
@@ -160,13 +160,13 @@ public static unsafe partial class CosmicHelper
 
         bool massApplyButton = ImGui.IsKeyDown(ImGuiKey.LeftShift) || ImGui.IsKeyDown(ImGuiKey.RightShift);
 
-        if (ImGui.CollapsingHeader("Craft Item Settings", openDefault))
+        if (ImGui.CollapsingHeader("任务制作", openDefault))
         {
             using (ImRaii.Disabled(!massApplyButton))
             {
                 ImGui.PushID(id);
 
-                if (ImGui.Button("Apply to similar missions"))
+                if (ImGui.Button("应用到相似任务"))
                 {
                     var currentMission = CosmicHelper.SheetMissionDict[id];
                     var recipeConfig = C.MissionConfig[id];
@@ -243,7 +243,7 @@ public static unsafe partial class CosmicHelper
             }
             if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled) && !massApplyButton)
             {
-                ImGui.SetTooltip("Hold shift to allow applying");
+                ImGui.SetTooltip("按住 Shift 以允许应用");
             }
 
             foreach (var craft in missionCrafts)
@@ -264,7 +264,7 @@ public static unsafe partial class CosmicHelper
 
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
-                        if (ImGui.Checkbox("Use Global Artisan Settings", ref globalArtisan))
+                        if (ImGui.Checkbox("使用全局 Artisan 设置", ref globalArtisan))
                         {
                             recipeConfig.UseGlobal = globalArtisan;
                             C.Save();
@@ -276,18 +276,18 @@ public static unsafe partial class CosmicHelper
                         {
                             return type switch
                             {
-                                ArtisanCraftType.Default => "Default",
-                                ArtisanCraftType.Raphael => "Raphael Solver",
-                                ArtisanCraftType.ProgressOnly => "Progress Only Solver",
-                                ArtisanCraftType.Standard => "Standard Solver",
-                                ArtisanCraftType.Expert => "Expert Recipe Solver",
-                                ArtisanCraftType.Macro => "Artisan Macro",
-                                _ => "Unknown"
+                                ArtisanCraftType.Default => "默认",
+                                ArtisanCraftType.Raphael => "Raphael 求解器",
+                                ArtisanCraftType.ProgressOnly => "仅进度求解器",
+                                ArtisanCraftType.Standard => "标准求解器",
+                                ArtisanCraftType.Expert => "专家配方求解器",
+                                ArtisanCraftType.Macro => "Artisan 宏",
+                                _ => "未知"
                             };
                         }
                         string GetFoodLable(uint foodId)
                         {
-                            if (foodId == 0) return "Default";
+                            if (foodId == 0) return "默认";
                             var item = ConsumableInfo.CrafterFood.FirstOrDefault(x => x.Id == foodId);
                             PlayerHelper.GetItemCount(item.Id, out var nq, includeHq: false, includeNq: true);
                             PlayerHelper.GetItemCount(item.Id, out var hq, includeHq: true, includeNq: false);
@@ -295,7 +295,7 @@ public static unsafe partial class CosmicHelper
                         }
                         string GetPotionLable(uint potionId)
                         {
-                            if (potionId == 0) return "Default";
+                            if (potionId == 0) return "默认";
                             var item = ConsumableInfo.Pots.FirstOrDefault(x => x.Id == potionId);
                             PlayerHelper.GetItemCount(item.Id, out var nq, includeHq: false, includeNq: true);
                             PlayerHelper.GetItemCount(item.Id, out var hq, includeHq: true, includeNq: false);
@@ -303,14 +303,14 @@ public static unsafe partial class CosmicHelper
                         }
                         string GetManualLabel(uint manualId)
                         {
-                            if (manualId == 0) return "Default";
+                            if (manualId == 0) return "默认";
                             var item = ConsumableInfo.Manuals.FirstOrDefault(x => x.Id == manualId);
                             PlayerHelper.GetItemCount(item.Id, out var nq, includeHq: false, includeNq: true);
                             return BuildItemLabel(item.Name, nq, 0);
                         }
                         string GetSquadronManualLabel(uint squadManualId)
                         {
-                            if (squadManualId == 0) return "Default";
+                            if (squadManualId == 0) return "默认";
                             var item = ConsumableInfo.SquadronManuals.FirstOrDefault(x => x.Id == squadManualId);
                             PlayerHelper.GetItemCount(item.Id, out var nq, includeHq: false, includeNq: true);
                             return BuildItemLabel(item.Name, nq, 0);
@@ -368,8 +368,8 @@ public static unsafe partial class CosmicHelper
                         if (ImGui.IsItemHovered())
                         {
                             ImGui.BeginTooltip();
-                            ImGui.Text($"Key / RecipeId: {craft.Key}");
-                            ImGui.Text($"ItemID: {craft.Value.ItemId}");
+                            ImGui.Text($"键 / 配方ID: {craft.Key}");
+                            ImGui.Text($"物品ID: {craft.Value.ItemId}");
                             ImGui.EndTooltip();
                         }
                         if (craft.Value.ExpertCraft)
@@ -379,7 +379,7 @@ public static unsafe partial class CosmicHelper
                             ImGuiEx.Icon(new Vector4(1.0f, 0.4f, 0.0f, 1.0f), FontAwesomeIcon.Diamond);
                             if (ImGui.IsItemHovered())
                             {
-                                ImGui.SetTooltip("Expert Craft");
+                                ImGui.SetTooltip("专家制作");
                             }
                         }
 
@@ -394,7 +394,7 @@ public static unsafe partial class CosmicHelper
                         ImGui.Text($"{craft.Value.ItemName}");
 
                         ImGui.TableNextColumn();
-                        ImGui.Text("Solver");
+                        ImGui.Text("求解器");
 
                         ImGui.TableNextColumn();
                         ImGui.SetNextItemWidth(recipe_ComboWidth);
@@ -441,14 +441,14 @@ public static unsafe partial class CosmicHelper
                             if (ImGui.BeginCombo("##MacroName", macroName, ImGuiComboFlags.HeightLargest))
                             {
                                 ImGui.SetNextItemWidth(200);
-                                if (ImGui.InputText("Macro Name", ref macroName))
+                                if (ImGui.InputText("宏名称", ref macroName))
                                 {
                                     recipeConfig.MacroName = macroName;
                                     C.SaveDebounced();
                                 }
 
                                 ImGui.Separator();
-                                if (ImGui.Button("Refresh Artisan Macros"))
+                                if (ImGui.Button("刷新 Artisan 宏"))
                                 {
                                     ArtisanMacros = P.Artisan.MacroList();
                                 }
@@ -481,7 +481,7 @@ public static unsafe partial class CosmicHelper
                             /*
                             ImGui.SameLine();
                             ImGui.SetNextItemWidth(200);
-                            if (ImGui.InputText("Macro Name", ref macroName))
+                            if (ImGui.InputText("宏名称", ref macroName))
                             {
                                 recipeConfig.MacroName = macroName;
                                 C.Save();
@@ -496,19 +496,19 @@ public static unsafe partial class CosmicHelper
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
                         ImGui.AlignTextToFramePadding();
-                        ImGui.Text($"Durability: {craft.Value.RecipeInfo.Durability}");
+                        ImGui.Text($"耐久: {craft.Value.RecipeInfo.Durability}");
 
                         if (supportedArtisan)
                         {
                             ImGui.TableNextColumn();
-                            ImGui.Text("Food");
+                            ImGui.Text("食物");
 
                             ImGui.TableNextColumn();
                             ImGui.SetNextItemWidth(recipe_ComboWidth);
                             if (ImGui.BeginCombo("##FoodSelection", recipe_FoodLabel))
                             {
                                 bool isDefaultSelected = recipeConfig.FoodId == 0;
-                                if (ImGui.Selectable("Default", isDefaultSelected))
+                                if (ImGui.Selectable("默认", isDefaultSelected))
                                 {
                                     recipeConfig.FoodId = 0;
                                     recipeConfig.FoodHQ = false;
@@ -551,12 +551,12 @@ public static unsafe partial class CosmicHelper
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
                         ImGui.AlignTextToFramePadding();
-                        ImGui.Text($"Progress: {craft.Value.RecipeInfo.Progress}");
+                        ImGui.Text($"进展: {craft.Value.RecipeInfo.Progress}");
 
                         if (supportedArtisan)
                         {
                             ImGui.TableNextColumn();
-                            ImGui.Text("Potion");
+                            ImGui.Text("爆发药");
 
                             ImGui.TableNextColumn();
                             ImGui.SetNextItemWidth(recipe_ComboWidth);
@@ -564,7 +564,7 @@ public static unsafe partial class CosmicHelper
                             {
                                 // Default option
                                 bool isDefaultSelected = recipeConfig.PotionId == 0;
-                                if (ImGui.Selectable("Default", isDefaultSelected))
+                                if (ImGui.Selectable("默认", isDefaultSelected))
                                 {
                                     recipeConfig.PotionId = 0;
                                     recipeConfig.PotionHQ = false;
@@ -607,13 +607,13 @@ public static unsafe partial class CosmicHelper
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
                         ImGui.AlignTextToFramePadding();
-                        ImGui.Text($"Quality: {craft.Value.RecipeInfo.Quality}");
+                        ImGui.Text($"品质: {craft.Value.RecipeInfo.Quality}");
 
                         if (supportedArtisan)
                         {
                             ImGui.TableNextColumn();
                             ImGui.AlignTextToFramePadding();
-                            ImGui.Text("Manual");
+                            ImGui.Text("手册");
 
                             ImGui.TableNextColumn();
                             ImGui.SetNextItemWidth(recipe_ComboWidth);
@@ -621,7 +621,7 @@ public static unsafe partial class CosmicHelper
                             {
                                 // Default option
                                 bool isDefaultSelected = recipeConfig.ManualId == 0;
-                                if (ImGui.Selectable("Default", isDefaultSelected))
+                                if (ImGui.Selectable("默认", isDefaultSelected))
                                 {
                                     recipeConfig.ManualId = 0;
                                     C.Save();
@@ -662,7 +662,7 @@ public static unsafe partial class CosmicHelper
                         {
                             ImGui.TableNextRow();
                             ImGui.TableSetColumnIndex(1);
-                            ImGui.Text("Squadron Manual");
+                            ImGui.Text("中队手册");
 
                             ImGui.TableNextColumn();
                             ImGui.SetNextItemWidth(recipe_ComboWidth);
@@ -670,7 +670,7 @@ public static unsafe partial class CosmicHelper
                             {
                                 // Default option
                                 bool isDefaultSelected = recipeConfig.SquadronManualId == 0;
-                                if (ImGui.Selectable("Default", isDefaultSelected))
+                                if (ImGui.Selectable("默认", isDefaultSelected))
                                 {
                                     recipeConfig.SquadronManualId = 0;
                                     C.Save();
@@ -722,12 +722,12 @@ public static unsafe partial class CosmicHelper
                             if (supportedArtisan)
                             {
                                 ImGui.TableNextColumn();
-                                ImGui.Text($"Max use");
+                                ImGui.Text($"最大使用次数");
 
                                 ImGui.TableNextColumn();
                                 var maxUsage = recipeConfig.SkillUsageAmount;
                                 ImGui.SetNextItemWidth(recipe_ComboWidth);
-                                string skillUsageLabel = maxUsage == -1 ? "Default" : $"{maxUsage}";
+                                string skillUsageLabel = maxUsage == -1 ? "默认" : $"{maxUsage}";
                                 if (ImGui.SliderInt("##MaxSkillUsage", ref maxUsage, -1, (int)actionInfo.UseAmount, skillUsageLabel))
                                 {
                                     recipeConfig.SkillUsageAmount = maxUsage;
@@ -787,11 +787,11 @@ public static unsafe partial class CosmicHelper
                                 if (mission.TemporaryAction.ActionId == 41269 && !globalArtisan)
                                 {
                                     ImGui.TableSetColumnIndex(1);
-                                    ImGui.Text("Use after this many steps");
+                                    ImGui.Text("多少步后使用");
 
                                     ImGui.TableNextColumn();
                                     var minSteps = recipeConfig.MinStepsForMiracle;
-                                    string skillMinStepsName = minSteps == -1 ? "Default" : $"{minSteps}";
+                                    string skillMinStepsName = minSteps == -1 ? "默认" : $"{minSteps}";
                                     ImGui.SetNextItemWidth(recipe_ComboWidth);
                                     if (ImGui.SliderInt("##MinMiracleSteps", ref minSteps, -1, 20, skillMinStepsName))
                                     {

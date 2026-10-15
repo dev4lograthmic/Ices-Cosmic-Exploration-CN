@@ -60,7 +60,7 @@ public static class CosmicMoonRegistry
     public static readonly CosmicMoonDefinition Sinus = new()
     {
         TerritoryId = 1237,
-        DisplayName = "Sinus Ardorum",
+        DisplayName = "憧憬湾",
         IconResource = "ICE.Resources.Sinus_Ardorum.png",
         PlanetFilter = ItemFilter.Sinus,
         PlanetCreditItemId = 45691,
@@ -77,7 +77,7 @@ public static class CosmicMoonRegistry
     public static readonly CosmicMoonDefinition Phaenna = new()
     {
         TerritoryId = 1291,
-        DisplayName = "Phaenna",
+        DisplayName = "法恩娜行星",
         IconResource = "ICE.Resources.Phaenna.png",
         PlanetFilter = ItemFilter.Phaenna,
         PlanetCreditItemId = 48146,
@@ -97,7 +97,7 @@ public static class CosmicMoonRegistry
     public static readonly CosmicMoonDefinition Oizys = new()
     {
         TerritoryId = 1310,
-        DisplayName = "Oizys",
+        DisplayName = "俄匊斯行星",
         IconResource = "ICE.Resources.Oizys.png",
         PlanetFilter = ItemFilter.Oizys,
         PlanetCreditItemId = 48147,
@@ -120,7 +120,7 @@ public static class CosmicMoonRegistry
     public static readonly CosmicMoonDefinition Auxesia = new()
     {
         TerritoryId = 1319,
-        DisplayName = "Auxesia",
+        DisplayName = "奥克塞西亚行星",
         IconResource = "ICE.Resources.Auxesia.png",
         PlanetFilter = ItemFilter.Auxesia,
         PlanetCreditItemId = 48148,

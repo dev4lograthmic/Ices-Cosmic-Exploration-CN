@@ -20,12 +20,12 @@ namespace ICE.Ui.MainUi.HelpFolder
                 if (!headerChild.Success) return; // Ensures that it was loaded properly before continuing.
                 if (ImGui.BeginTabBar("Ice Log Tabs"))
                 {
-                    if (ImGui.BeginTabItem("Main Logs"))
+                    if (ImGui.BeginTabItem("主日志"))
                     {
                         LogHelperViewer();
                         ImGui.EndTabItem();
                     }
-                    if (ImGui.BeginTabItem("Destination Logs"))
+                    if (ImGui.BeginTabItem("目标日志"))
                     {
                         DestinationLogViewer();
                         ImGui.EndTabItem();
@@ -38,7 +38,7 @@ namespace ICE.Ui.MainUi.HelpFolder
 
         public static void Draw_Debug()
         {
-            if (ImGui.Button("Copy logs to clipboard"))
+            if (ImGui.Button("复制日志到剪贴板"))
             {
                 LogSystem.CopyToClipboard();
             }
@@ -49,10 +49,10 @@ namespace ICE.Ui.MainUi.HelpFolder
         {
             // Search input
             ImGui.SetNextItemWidth(300);
-            ImGui.InputTextWithHint("##LogSearch", "Search logs...", ref searchFilter, 256);
+            ImGui.InputTextWithHint("##LogSearch", "搜索日志…", ref searchFilter, 256);
 
             ImGui.SameLine();
-            if (ImGui.Button("Copy Logs"))
+            if (ImGui.Button("复制日志"))
             {
                 LogSystem.CopyToClipboard();
             }
@@ -66,11 +66,11 @@ namespace ICE.Ui.MainUi.HelpFolder
 
             if (ImGui.BeginTable("LogTable", 5, flags))
             {
-                ImGui.TableSetupColumn("Time");
-                ImGui.TableSetupColumn("Count");
-                ImGui.TableSetupColumn("Level");
-                ImGui.TableSetupColumn("Category");
-                ImGui.TableSetupColumn("Message", ImGuiTableColumnFlags.WidthStretch);
+                ImGui.TableSetupColumn("时间");
+                ImGui.TableSetupColumn("次数");
+                ImGui.TableSetupColumn("等级");
+                ImGui.TableSetupColumn("分类");
+                ImGui.TableSetupColumn("消息", ImGuiTableColumnFlags.WidthStretch);
                 ImGui.TableHeadersRow();
 
                 // Filter logs based on search input
@@ -146,10 +146,10 @@ namespace ICE.Ui.MainUi.HelpFolder
 
             if (ImGui.BeginTable("Destination Log Viewer", 5, flags))
             {
-                ImGui.TableSetupColumn("Timestamp");
-                ImGui.TableSetupColumn("Start");
-                ImGui.TableSetupColumn("Destination");
-                ImGui.TableSetupColumn("Distance");
+                ImGui.TableSetupColumn("时间戳");
+                ImGui.TableSetupColumn("起点");
+                ImGui.TableSetupColumn("目标");
+                ImGui.TableSetupColumn("距离");
 
                 ImGui.TableHeadersRow();
 
@@ -175,13 +175,13 @@ namespace ICE.Ui.MainUi.HelpFolder
                     Table_VertCenterText($"{log.Distance}");
 
                     ImGui.TableNextColumn();
-                    if (ImGui.Button("Copy Info"))
+                    if (ImGui.Button("复制信息"))
                     {
                         var clipboardText = new StringBuilder();
-                        clipboardText.AppendLine($"Start: X: {log.PlayerStart.X:N2}, Y: {log.PlayerStart.Y:N2}, Z: {log.PlayerStart.Z:N2}");
-                        clipboardText.Append($"End: X: {log.PlayerDestination.X:N2}, Y: {log.PlayerDestination.Y:N2}, Z: {log.PlayerDestination.Z:N2}");
+                        clipboardText.AppendLine($"起点: X: {log.PlayerStart.X:N2}, Y: {log.PlayerStart.Y:N2}, Z: {log.PlayerStart.Z:N2}");
+                        clipboardText.Append($"终点: X: {log.PlayerDestination.X:N2}, Y: {log.PlayerDestination.Y:N2}, Z: {log.PlayerDestination.Z:N2}");
                         ImGui.SetClipboardText($"{clipboardText}");
-                        Notify.Success("Log copied to clipbard");
+                        Notify.Success("日志已复制到剪贴板");
                     }
                     ImGui.PopID();
 
