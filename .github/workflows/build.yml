@@ -71,8 +71,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $tag = "v${{ steps.ver.outputs.version }}"
+          $exists = $false
           gh release view $tag *> $null
-          if ($LASTEXITCODE -eq 0) {
+          if ($LASTEXITCODE -eq 0) { $exists = $true }
+          $global:LASTEXITCODE = 0
+          if ($exists) {
             Write-Host "Release $tag already exists - skipping publish."
             "publish=false" >> $env:GITHUB_OUTPUT
           } else {
