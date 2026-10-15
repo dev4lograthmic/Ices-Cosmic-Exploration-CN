@@ -1,8 +1,8 @@
 {
-  "Author": "Ice",
+  "Author": "Ice / 汉化：dev4lograthmic",
   "Name": "Ice's Cosmic Exploration",
-  "Punchline": "The gathering companion that we all needed.",
-  "Description": "A little helper to go gather your heart out.",
+  "Punchline": "我们都需要的采集好伙伴。",
+  "Description": "一个帮你尽情采集的小助手。",
   "ApplicableVersion": "any",
   "Tags": [
     "Gatherers"
