@@ -34,15 +34,15 @@ namespace ICE.Ui.MainUi
                 bool autoSelectedJob = C.AutoPickCurrentJob;
                 AutoSelectClass(autoSelectedJob);
 
-                if (ImGui_Ice.Sidebar_CollaspableHeader("Cosmic Helper", SidebarTabs.CosmicHelper, icon: FontAwesomeIcon.ListAlt))
+                if (ImGui_Ice.Sidebar_CollaspableHeader("宇宙助手", SidebarTabs.CosmicHelper, icon: FontAwesomeIcon.ListAlt))
                 {
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.List, "Mission Setup", WindowSelection.MissionSetup);
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.ClipboardList, "Cosmic Agenda", WindowSelection.CosmicAgenda);
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Trophy, "Expedition Log", WindowSelection.ExpeditionLogs);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.List, "任务列表", WindowSelection.MissionSetup);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.ClipboardList, "宇宙日程", WindowSelection.CosmicAgenda);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Trophy, "探索日志", WindowSelection.ExpeditionLogs);
                 }
-                if (ImGui_Ice.Sidebar_CollaspableHeader("Planet Selection", SidebarTabs.PlanetSelection, FontAwesomeIcon.Moon))
+                if (ImGui_Ice.Sidebar_CollaspableHeader("地图选择", SidebarTabs.PlanetSelection, FontAwesomeIcon.Moon))
                 {
-                    if (ImGui_Ice.SliderButton("AutoSelectMoon", "Auto View", ref autoSelectMoon))
+                    if (ImGui_Ice.SliderButton("AutoSelectMoon", "自动选择地图", ref autoSelectMoon))
                     {
                         C.AutoSelectMoon = autoSelectMoon;
                         C.Save();
@@ -57,7 +57,7 @@ namespace ICE.Ui.MainUi
                     if (ImGui.IsItemHovered())
                     {
                         ImGui.BeginTooltip();
-                        ImGui.Text("Filters which planets appear in the\nmission list and the overlay.");
+                        ImGui.Text("筛选会出现在\n任务列表和悬浮窗中的地图。");
                         ImGui.EndTooltip();
                     }
                     ImGui.Dummy(new(0, 3));
@@ -95,24 +95,24 @@ namespace ICE.Ui.MainUi
                         }
                     }
                 }
-                if (ImGui_Ice.Sidebar_CollaspableHeader("Hub Activities", SidebarTabs.HubActivites, icon: FontAwesomeIcon.Home))
+                if (ImGui_Ice.Sidebar_CollaspableHeader("基地活动", SidebarTabs.HubActivites, icon: FontAwesomeIcon.Home))
                 {
-                    ImGui_Ice.DrawSelectable_Image(65112, "Credit Shopping", WindowSelection.CreditShopping);
-                    ImGui_Ice.DrawSelectable_Image(65127, "Gambling Settings", WindowSelection.GambaShopping);
+                    ImGui_Ice.DrawSelectable_Image(65112, "信用点购物", WindowSelection.CreditShopping);
+                    ImGui_Ice.DrawSelectable_Image(65127, "宇宙好运道设置", WindowSelection.GambaShopping);
 
                     if (ShowDronebitSettings())
-                        ImGui_Ice.DrawSelectable_Image(65138, "Dronebit Settings", WindowSelection.DroneShopping);
+                        ImGui_Ice.DrawSelectable_Image(65138, "无人机晶片设置", WindowSelection.DroneShopping);
 
-                    ImGui_Ice.DrawSelectable_Image(26176, "Mount Tokens", WindowSelection.MountShopping);
+                    ImGui_Ice.DrawSelectable_Image(26176, "坐骑票据", WindowSelection.MountShopping);
                 }
-                if (ImGui_Ice.Sidebar_CollaspableHeader("Settings", SidebarTabs.Settings, icon: FontAwesomeIcon.Cog))
+                if (ImGui_Ice.Sidebar_CollaspableHeader("设置", SidebarTabs.Settings, icon: FontAwesomeIcon.Cog))
                 {
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Stop, "Stop When...", WindowSelection.StopWhen);
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Leaf, "Gathering Profile", WindowSelection.GatheringProfiles);
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.SortAmountUp, "Mission Priority", WindowSelection.MissionPriority);
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Route, "Travel & Pathfinding", WindowSelection.TravelSettings);
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.PersonBurst, "Character Settings", WindowSelection.CharacterSettings);
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.UserCog, "Misc Settings", WindowSelection.MiscSettings);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Stop, "停止条件", WindowSelection.StopWhen);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Leaf, "采集配置", WindowSelection.GatheringProfiles);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.SortAmountUp, "任务优先级", WindowSelection.MissionPriority);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Route, "移动与寻路", WindowSelection.TravelSettings);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.PersonBurst, "角色设置", WindowSelection.CharacterSettings);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.UserCog, "杂项设置", WindowSelection.MiscSettings);
                 }
 
                 var currentClass = C.SelectedJob;
@@ -128,7 +128,7 @@ namespace ICE.Ui.MainUi
 
 
                 var classIcon = ImGui_Ice.GetGreyscaleJob(currentClass);
-                if (ImGui_Ice.Sidebar_CollaspableHeader("Select Class", SidebarTabs.ClassSelection, imageTexture: classIcon))
+                if (ImGui_Ice.Sidebar_CollaspableHeader("职业选择", SidebarTabs.ClassSelection, imageTexture: classIcon))
                 {
                     int itemsPerRow = 4;
                     int currentItem = 0;
@@ -137,7 +137,7 @@ namespace ICE.Ui.MainUi
                     float iconSpacing = 4;
                     float leftOffset = 10f; // Simple offset from the current position
 
-                    if (ImGui_Ice.SliderButton("AutoSelectJob", "Auto View Job", ref autoSelectedJob))
+                    if (ImGui_Ice.SliderButton("AutoSelectJob", "自动选择", ref autoSelectedJob))
                     {
                         C.AutoPickCurrentJob = autoSelectedJob;
                         C.Save();
@@ -159,16 +159,16 @@ namespace ICE.Ui.MainUi
                             ImGui.SameLine(0, iconSpacing);
                     }
                 }
-                if (ImGui_Ice.Sidebar_CollaspableHeader("Current Tool XP", SidebarTabs.ExpInfo, FontAwesomeIcon.ArrowUpRightDots))
+                if (ImGui_Ice.Sidebar_CollaspableHeader("宇宙研究数据", SidebarTabs.ExpInfo, FontAwesomeIcon.ArrowUpRightDots))
                 {
                     ImGui_Ice.Draw_ExpTable(currentClass);
                 }
-                if (ImGui_Ice.Sidebar_CollaspableHeader("Need Help?", SidebarTabs.HelpInfo, FontAwesomeIcon.QuestionCircle))
+                if (ImGui_Ice.Sidebar_CollaspableHeader("帮助", SidebarTabs.HelpInfo, FontAwesomeIcon.QuestionCircle))
                 {
-                 // ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.HandHoldingHand, "Plugin Tips", WindowSelection.Plugin_Tips);
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.QuestionCircle, "Plugin Requirements", WindowSelection.Plugin_Install);
-                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Book, "Plugin Logs", WindowSelection.Plugin_Logs);
-                    if (ImGuiEx.IconButtonWithText(FontAwesomeIcon.Toolbox, "Refresh Class info", size: new(ImGui.GetContentRegionAvail().X, 30)))
+                 // ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.HandHoldingHand, "插件提示", WindowSelection.Plugin_Tips);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.QuestionCircle, "插件需求", WindowSelection.Plugin_Install);
+                    ImGui_Ice.DrawSelectable_Icon(FontAwesomeIcon.Book, "Ice 日志", WindowSelection.Plugin_Logs);
+                    if (ImGuiEx.IconButtonWithText(FontAwesomeIcon.Toolbox, "刷新职业信息", size: new(ImGui.GetContentRegionAvail().X, 30)))
                     {
                         CosmicHelper.Task_UpdateRelicMissionInfo();
                     }
