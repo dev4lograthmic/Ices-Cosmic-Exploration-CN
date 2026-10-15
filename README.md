@@ -1,4 +1,12 @@
-# Ice 的宇宙探索 (ICE)
+# Ices Cosmic Exploration (ICE)
+
+> 本仓库对原始ICE进行汉化，仅对原始字符串做直接替换，未进行任何功能性修改。如有功能bug，请移步[原始仓库issues](https://github.com/LeontopodiumNivale14/Ices-Cosmic-Exploration/issues)
+
+> 汉化插件仓库链接：https://raw.githubusercontent.com/dev4lograthmic/Ices-Cosmic-Exploration-CN/Main-Branch/repo.json
+
+以下为原始机翻内容
+
+====
 
 仓库：`https://puni.sh/api/repository/ice`
 
