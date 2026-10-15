@@ -133,7 +133,7 @@ public static partial class SettingsUi
 
         if (_filtered.Count == 0)
         {
-            ImGui.TextDisabled($"No settings match \"{_searchQuery}\".");
+            ImGui.TextDisabled($"没有匹配“{_searchQuery}”的设置。");
             return;
         }
 
@@ -143,14 +143,14 @@ public static partial class SettingsUi
     private static void DrawSearchBar()
     {
         ImGui.SetNextItemWidth(-1);
-        if (ImGui.InputTextWithHint("##settings-search", "Search settings...", ref _searchQuery, 128))
+        if (ImGui.InputTextWithHint("##settings-search", "搜索设置…", ref _searchQuery, 128))
             _filterDirty = true;
 
         if (string.IsNullOrEmpty(_searchQuery))
             return;
 
         ImGui.SameLine();
-        if (ImGui.SmallButton("Clear"))
+        if (ImGui.SmallButton("清空"))
         {
             _searchQuery = string.Empty;
             _filterDirty = true;

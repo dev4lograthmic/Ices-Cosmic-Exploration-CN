@@ -18,13 +18,13 @@ namespace ICE.Ui.MainUi.Settings
             var enableMountBuy = C.PlanetMount_Enable;
             var mountBuyAmount = C.PlanetMount_Amount;
 
-            if (ImGui.Checkbox("Buy Booklets", ref enableBooklet))
+            if (ImGui.Checkbox("购买小册子", ref enableBooklet))
             {
                 C.BookletBuy_Enable = enableBooklet;
                 C.SaveDebounced();
             }
             ImGui.SetNextItemWidth(200);
-            if (ImGui.InputInt("Buy Booklets @", ref bookletAmount))
+            if (ImGui.InputInt("购买小册子 @", ref bookletAmount))
             {
                 if (bookletAmount > 99)
                 {
@@ -33,13 +33,13 @@ namespace ICE.Ui.MainUi.Settings
                 }
             }
 
-            if (ImGui.Checkbox("Buy Mounts", ref enableMountBuy))
+            if (ImGui.Checkbox("购买坐骑", ref enableMountBuy))
             {
                 C.PlanetMount_Enable = enableMountBuy;
                 C.SaveDebounced();
             }
             ImGui.SetNextItemWidth(200);
-            if (ImGui.InputInt("Buy Mount @", ref mountBuyAmount))
+            if (ImGui.InputInt("购买坐骑 @", ref mountBuyAmount))
             {
                 if (mountBuyAmount > 59)
                 {
@@ -50,11 +50,11 @@ namespace ICE.Ui.MainUi.Settings
 
             if (ImGui.BeginTable("Mount Token Info", 5, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("Planet");
-                ImGui.TableSetupColumn("Tokens");
-                ImGui.TableSetupColumn("Booklets");
-                ImGui.TableSetupColumn("Mount");
-                ImGui.TableSetupColumn("Unlocked");
+                ImGui.TableSetupColumn("行星");
+                ImGui.TableSetupColumn("票据");
+                ImGui.TableSetupColumn("小册子");
+                ImGui.TableSetupColumn("坐骑");
+                ImGui.TableSetupColumn("已解锁");
 
                 ImGui.TableHeadersRow();
 
@@ -76,8 +76,8 @@ namespace ICE.Ui.MainUi.Settings
                             if (ImGui.IsItemHovered())
                             {
                                 ImGui.BeginTooltip();
-                                ImGui.Text($"Item ID: {entry.Value.tokenId}");
-                                ImGui.Text($"Name: {tokenSheet.Name}");
+                                ImGui.Text($"物品 ID: {entry.Value.tokenId}");
+                                ImGui.Text($"名称: {tokenSheet.Name}");
                                 ImGui.EndTooltip();
                             }
                         }
@@ -92,8 +92,8 @@ namespace ICE.Ui.MainUi.Settings
                             if (ImGui.IsItemHovered())
                             {
                                 ImGui.BeginTooltip();
-                                ImGui.Text($"Item ID: {entry.Value.bookletId}");
-                                ImGui.Text($"Name: {bookletSheet.Name}");
+                                ImGui.Text($"物品 ID: {entry.Value.bookletId}");
+                                ImGui.Text($"名称: {bookletSheet.Name}");
                                 ImGui.EndTooltip();
                             }
                         }
@@ -108,8 +108,8 @@ namespace ICE.Ui.MainUi.Settings
                             if (ImGui.IsItemHovered())
                             {
                                 ImGui.BeginTooltip();
-                                ImGui.Text($"Item ID: {entry.Value.mountId}");
-                                ImGui.Text($"Name: {mountSheet.Name}");
+                                ImGui.Text($"物品 ID: {entry.Value.mountId}");
+                                ImGui.Text($"名称: {mountSheet.Name}");
                                 ImGui.EndTooltip();
                             }
                         }

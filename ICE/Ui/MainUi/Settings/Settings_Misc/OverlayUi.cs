@@ -7,7 +7,7 @@ namespace ICE.Ui.MainUi.Settings.Settings_Misc;
 
 public static partial class SettingsUi
 {
-    private const string OverlayCategory = "Overlay Window";
+    private const string OverlayCategory = "悬浮窗";
 
     private static readonly Dictionary<uint, string> OverlayClassNames = new()
     {
@@ -26,45 +26,45 @@ public static partial class SettingsUi
 
     private static readonly SettingEntry Overlay_AutoOpen = new()
     {
-        Label = "Auto-Open Overlay",
+        Label = "自动打开悬浮窗",
         Category = OverlayCategory,
         Keywords = new[] { "Overlay", "Open", "Auto" },
         Draw = () =>
         {
             var showOverlay = C.ShowOverlay;
-            if (ImGui.Checkbox("Auto-Open Overlay", ref showOverlay))
+            if (ImGui.Checkbox("自动打开悬浮窗", ref showOverlay))
             {
                 C.ShowOverlay = showOverlay;
                 C.Save();
             }
 
             ImGui.SameLine();
-            if (ImGui.Button("Open Overlay") && !P.overlayWindow.IsOpen)
+            if (ImGui.Button("打开悬浮窗") && !P.overlayWindow.IsOpen)
                 P.overlayWindow.IsOpen = true;
         }
     };
 
     private static readonly SettingEntry Overlay_CogsIcon = Toggle(
-        "Use cogs button instead of home", OverlayCategory,
+        "使用齿轮按钮替代主页按钮", OverlayCategory,
         new[] { "Overlay", "Cogs", "Home", "Button", "Icon" },
         () => C.Overlay_UseCogsIcon,
         v => C.Overlay_UseCogsIcon = v);
 
     private static readonly SettingEntry Overlay_ShowSeconds = Toggle(
-        "Show Seconds", OverlayCategory,
+        "显示秒数", OverlayCategory,
         new[] { "Overlay", "Seconds", "Time" },
         () => C.ShowSeconds,
         v => C.ShowSeconds = v);
 
     private static readonly SettingEntry Overlay_ExpBars = new()
     {
-        Label = "Show Experience Bars on Overlay",
+        Label = "在悬浮窗显示宇宙工具研究数据",
         Category = OverlayCategory,
         Keywords = new[] { "Overlay", "Experience", "Exp", "XP", "Bars", "Maxed" },
         Draw = () =>
         {
             var showExp = C.ShowExpBars;
-            if (ImGui.Checkbox("Show Experience Bars on Overlay", ref showExp))
+            if (ImGui.Checkbox("在悬浮窗显示宇宙工具研究数据", ref showExp))
             {
                 C.ShowExpBars = showExp;
                 C.Save();
@@ -75,7 +75,7 @@ public static partial class SettingsUi
 
             ImGui.SameLine();
             var hideWhenMaxed = C.ShowExpBars_HideWhenMaxed;
-            if (ImGui.Checkbox("Until maxed only", ref hideWhenMaxed))
+            if (ImGui.Checkbox("仅在达到上限前显示", ref hideWhenMaxed))
             {
                 C.ShowExpBars_HideWhenMaxed = hideWhenMaxed;
                 C.Save();
@@ -85,13 +85,13 @@ public static partial class SettingsUi
 
     private static readonly SettingEntry Overlay_Scores = new()
     {
-        Label = "Score Display",
+        Label = "技巧点显示",
         Category = OverlayCategory,
         Keywords = new[] { "Overlay", "Score", "Class", "Total", "Mastery", "Current" },
         Draw = () =>
         {
             var showClassScore = C.ShowCurrentScore;
-            if (ImGui.Checkbox("Show Current Class Score", ref showClassScore))
+            if (ImGui.Checkbox("显示当前职业技巧点", ref showClassScore))
             {
                 C.ShowCurrentScore = showClassScore;
                 C.Save();
@@ -99,7 +99,7 @@ public static partial class SettingsUi
 
             ImGui.SameLine();
             var showTotalScore = C.ShowTotalScore;
-            if (ImGui.Checkbox("Show Total Score", ref showTotalScore))
+            if (ImGui.Checkbox("显示总技巧点", ref showTotalScore))
             {
                 C.ShowTotalScore = showTotalScore;
                 C.Save();
@@ -107,7 +107,7 @@ public static partial class SettingsUi
 
             ImGui.SameLine();
             var showMasteryScore = C.ShowMasteryScore;
-            if (ImGui.Checkbox("Show Mastery Score", ref showMasteryScore))
+            if (ImGui.Checkbox("显示精通技巧点", ref showMasteryScore))
             {
                 C.ShowMasteryScore = showMasteryScore;
                 C.Save();
@@ -116,32 +116,32 @@ public static partial class SettingsUi
     };
 
     private static readonly SettingEntry Overlay_AutoResize = Toggle(
-        "Auto Resize Overlay", OverlayCategory,
+        "自动调整悬浮窗大小", OverlayCategory,
         new[] { "Overlay", "Resize", "Size" },
         () => C.Overlay_AutoResize,
         v => C.Overlay_AutoResize = v);
 
     private static readonly SettingEntry Overlay_HighlightWeather = Toggle(
-        "Highlight EX+ token weathers", OverlayCategory,
+        "高亮 EX+ 票据天气", OverlayCategory,
         new[] { "Overlay", "Highlight", "Weather", "Token", "EX+" },
         () => C.Overlay_HighlightTokenWeather,
         v => C.Overlay_HighlightTokenWeather = v);
 
     private static readonly SettingEntry Overlay_WeatherSelected = Toggle(
-        "Show enabled missions on weather hover", OverlayCategory,
+        "悬停天气时显示已启用任务", OverlayCategory,
         new[] { "Overlay", "Weather", "Hover", "Missions", "Enabled", "Selected" },
         () => C.Overlay_WeatherSelected,
         v => C.Overlay_WeatherSelected = v);
 
     private static readonly SettingEntry Overlay_JobFilter = new()
     {
-        Label = "Filter by current job only",
+        Label = "仅按当前职业筛选",
         Category = OverlayCategory,
         Keywords = new[] { "Overlay", "Filter", "Job", "Class", "Current" },
         Draw = () =>
         {
             var filterByCurrentJob = C.Overlay_FilterByCurrentJob;
-            if (ImGui.Checkbox("Filter by current job only", ref filterByCurrentJob))
+            if (ImGui.Checkbox("仅按当前职业筛选", ref filterByCurrentJob))
             {
                 C.Overlay_FilterByCurrentJob = filterByCurrentJob;
                 C.Save();
@@ -179,9 +179,9 @@ public static partial class SettingsUi
     };
 
     private static readonly SettingEntry Overlay_HudClipping = Toggle(
-        "Disable HUD Clipping", OverlayCategory,
+        "禁用 HUD 裁切", OverlayCategory,
         new[] { "Overlay", "HUD", "Clipping", "Native", "UI" },
         () => C.DisableHudClipping,
         v => C.DisableHudClipping = v,
-        "When enabled, overlays will render over the native UI elements");
+        "启用后，绘制叠加层将渲染在原生 UI 元素上方");
 }

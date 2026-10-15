@@ -7,14 +7,14 @@ namespace ICE.Ui.MainUi.Settings;
 public static class Settings_TableColumns
 {
     private static string[] missionSortOptions = 
-        ["Id", "Name", "Cosmo Credits", "Lunar Credits", 
-        "Exp I", "Exp II", "Exp III", "Exp IV", "Exp V", 
-        "Map Location", "Class Score", "Class Exp"];
+        ["ID", "任务名称", "宇宙信用点", "行星信用点", 
+        "研究数据 I", "研究数据 II", "研究数据 III", "研究数据 IV", "研究数据 V", 
+        "地图位置", "职业技巧点", "职业经验值"];
 
     public static void ColumnSettings()
     {
         int missionSelectedOption = C.TableSortOption;
-        if (ImGui.BeginCombo("Sort By", missionSortOptions[missionSelectedOption]))
+        if (ImGui.BeginCombo("排序方式", missionSortOptions[missionSelectedOption]))
         {
             for (int i = 0; i < missionSortOptions.Length; i++)
             {
@@ -37,21 +37,21 @@ public static class Settings_TableColumns
         }
 
         bool hideUnsupported = C.HideUnsupportedMissions;
-        if (ImGui.Checkbox("Hide Unsupported Missions", ref hideUnsupported))
+        if (ImGui.Checkbox("隐藏不支持的任务", ref hideUnsupported))
         {
             C.HideUnsupportedMissions = hideUnsupported;
             C.Save();
         }
 
         bool autoShowToken = C.Auto_ShowTokens;
-        if (ImGui.Checkbox("Auto Hide/Show Planet Tokens", ref autoShowToken))
+        if (ImGui.Checkbox("自动显示/隐藏行星票据", ref autoShowToken))
         {
             C.Auto_ShowTokens = autoShowToken;
             C.Save();
         }
 
-        ImGuiEx.HelpMarker("Only enable this if you want plan on doing missions YOURSELF. AND NOT AUTOMATING IT. " +
-                           "Or if you're letting a different plugin do all the automating of turning in, craftings, gathering... and not letting I.C.E. handle interacting with those plugins");
+        ImGuiEx.HelpMarker("只在您打算亲自完成任务，而不是依靠插件自动化完成时，才需要启用此选项。" +
+                           "另外，如果您使用其他插件来处理汇报、制作、采集等自动化操作，并且不希望 I.C.E. 与这些插件交互，也可以启用此选项");
     }
 
     private static bool ApplyToAllClasses = true;
@@ -61,17 +61,17 @@ public static class Settings_TableColumns
 
     private static readonly string[] classOptions = new[]
     {
-        "Carpenter (CRP)",      // 0
-        "Blacksmith (BSM)",     // 1
-        "Armorer (ARM)",        // 2
-        "Goldsmith (GSM)",      // 3
-        "Leatherworker (LTW)",  // 4
-        "Weaver (WVR)",         // 5
-        "Alchemist (ALC)",      // 6
-        "Culinarian (CUL)",     // 7
-        "Miner (MIN)",          // 8
-        "Botanist (BTN)",       // 9
-        "Fisher (FSH)"          // 10
+        "刻木匠 (CRP)",      // 0
+        "锻铁匠 (BSM)",     // 1
+        "铸甲匠 (ARM)",        // 2
+        "雕金匠 (GSM)",      // 3
+        "制革匠 (LTW)",  // 4
+        "裁衣匠 (WVR)",         // 5
+        "炼金术士 (ALC)",      // 6
+        "烹调师 (CUL)",     // 7
+        "采矿工 (MIN)",          // 8
+        "园艺工 (BTN)",       // 9
+        "捕鱼人 (FSH)"          // 10
     };
 
     private static readonly int[] classIds = new[]
@@ -93,20 +93,20 @@ public static class Settings_TableColumns
 
     public static void GeneralMissionSettings()
     {
-        if (ImGui.Button("Quick Apply Turnins"))
+        if (ImGui.Button("快捷汇报模式应用"))
         {
             ImGui.OpenPopup("Quick Apply_Mission Turnins");
         }
 
         if (ImGui.BeginPopup("Quick Apply_Mission Turnins"))
         {
-            if (ImGui.RadioButton("Apply to all classes", ApplyToAllClasses))
+            if (ImGui.RadioButton("应用到全部职业", ApplyToAllClasses))
             {
                 ApplyToAllClasses = true;
                 ApplyToSpecicClass = false;
             }
 
-            if (ImGui.RadioButton("Apply to specific class", ApplyToSpecicClass))
+            if (ImGui.RadioButton("应用到指定职业", ApplyToSpecicClass))
             {
                 ApplyToAllClasses = false;
                 ApplyToSpecicClass = true;
@@ -118,25 +118,25 @@ public static class Settings_TableColumns
                 IceLogging.Debug($"Selected class: {classOptions[selectedClassIndex]}, ID: {SpecificClass}");
             }
             ImGui.Separator();
-            ImGui.Text("Select Turnin Options");
+            ImGui.Text("选择汇报选项");
             ImGui.Dummy(new Vector2(0, 2));
 
-            if (ImGui.RadioButton("Gold", HighestTurnin is TurninState.Gold))
+            if (ImGui.RadioButton("金星", HighestTurnin is TurninState.Gold))
             {
                 HighestTurnin = TurninState.Gold;
             }
-            if (ImGui.RadioButton("Silver", HighestTurnin is TurninState.Silver))
+            if (ImGui.RadioButton("银星", HighestTurnin is TurninState.Silver))
             {
                 HighestTurnin = TurninState.Silver;
             }
-            if (ImGui.RadioButton("Bronze", HighestTurnin is TurninState.Bronze))
+            if (ImGui.RadioButton("铜星", HighestTurnin is TurninState.Bronze))
             {
                 HighestTurnin = TurninState.Bronze;
             }
 
             ImGui.Separator();
 
-            if (ImGui.Button("Apply"))
+            if (ImGui.Button("应用"))
             {
                 var amountApplied = 0;
                 foreach (var mission in C.MissionConfig)
@@ -158,7 +158,7 @@ public static class Settings_TableColumns
                 }
                 C.SaveDebounced();
 
-                Notify.Success($"Applied settings to: {amountApplied} missions, just for you buddy.");
+                Notify.Success($"已应用设置到 {amountApplied} 个任务，专门为你做的，兄弟。");
                 ImGui.CloseCurrentPopup();
             }
 

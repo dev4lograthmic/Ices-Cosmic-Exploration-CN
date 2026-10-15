@@ -10,21 +10,21 @@ namespace ICE.Ui.MainUi.Settings
         {
             if (ImGui.BeginTabBar("Mission Priority Settings"))
             {
-                if (ImGui.BeginTabItem("Mission Priority Order"))
+                if (ImGui.BeginTabItem("任务优先级顺序"))
                 {
                     MissionTypeOrderUi();
 
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Provisional: Type Order"))
+                if (ImGui.BeginTabItem("临时任务：类型顺序"))
                 {
                     TypePriorityUi();
 
                     ImGui.EndTabItem();
                 }
 
-                if (ImGui.BeginTabItem("Provisional: Job Order"))
+                if (ImGui.BeginTabItem("临时任务：职业顺序"))
                 {
                     JobPriorityUi();
 
@@ -49,9 +49,9 @@ namespace ICE.Ui.MainUi.Settings
 
             if (ImGui.BeginTable("Type Priority Table", 3, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("ReOrder");
+                ImGui.TableSetupColumn("重排");
                 ImGui.TableSetupColumn("Icon");
-                ImGui.TableSetupColumn("Type");
+                ImGui.TableSetupColumn("类型");
 
                 ImGui.TableHeadersRow();
 
@@ -83,9 +83,9 @@ namespace ICE.Ui.MainUi.Settings
                     ImGui.AlignTextToFramePadding();
                     string type = entry switch
                     {
-                        ProvisionalTypes.ProvisionalTimed => "Timed",
-                        ProvisionalTypes.ProvisionalSequential => "Sequence",
-                        ProvisionalTypes.ProvisionalWeather => "Weather",
+                        ProvisionalTypes.ProvisionalTimed => "时间限定",
+                        ProvisionalTypes.ProvisionalSequential => "连续",
+                        ProvisionalTypes.ProvisionalWeather => "天气限定",
                         _ => entry.ToString()
                     };
                     ImGui.Text($"{type}");
@@ -103,11 +103,11 @@ namespace ICE.Ui.MainUi.Settings
 
         private static void MissionTypeOrderUi()
         {
-            ImGui.Text("Mission Search Priority");
+            ImGui.Text("任务搜索优先级");
             ImGui_Ice.IconWithTooltip(
                 FontAwesomeIcon.InfoCircle, 
-                "Order you would like to do the actions. It will work from the top down.\n" +
-                "So if you Have Red Arert -> Drone Search, if a red alert isn't available, it will proceed to use a drone box if it can");
+                "你希望执行这些操作的顺序。它会从上往下执行。\n" +
+                "例如你设置 紧急探索 -> 无人机搜索，如果没有可用的紧急探索，它会继续尝试使用无人机箱（如果可用）");
 
             _dragDrop_MissionType ??= new ImGuiEx.RealtimeDragDrop<MissionTypes>(
                 "MissionTypeDragDrop",
@@ -119,9 +119,9 @@ namespace ICE.Ui.MainUi.Settings
 
             if (ImGui.BeginTable("Mission Type Table", 3, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("ReOrder");
+                ImGui.TableSetupColumn("重排");
                 ImGui.TableSetupColumn("Icon");
-                ImGui.TableSetupColumn("Type");
+                ImGui.TableSetupColumn("类型");
 
                 ImGui.TableHeadersRow();
 
@@ -154,10 +154,10 @@ namespace ICE.Ui.MainUi.Settings
                     ImGui.AlignTextToFramePadding();
                     string name = entry switch
                     {
-                        MissionTypes.DroneSearch => "Drone Search",
-                        MissionTypes.Critical => "Red Alert",
-                        MissionTypes.Provisional => "Provisional Missions [Weather/Timed/Sequence]",
-                        MissionTypes.Standard => "Standard Missions [A->D]",
+                        MissionTypes.DroneSearch => "无人机搜索",
+                        MissionTypes.Critical => "紧急探索",
+                        MissionTypes.Provisional => "临时性任务[天气限定/时间限定/连续]",
+                        MissionTypes.Standard => "标准任务[A->D]",
                         _ => $"{entry}"
                     };
                     ImGui.Text($"{name}");
@@ -165,7 +165,7 @@ namespace ICE.Ui.MainUi.Settings
                     {
                         ImGui.SameLine();
                         ImGui_Ice.IconWithTooltip(FontAwesomeIcon.ExclamationTriangle,
-                            "Finding drone locations is turned off, so we're just going to ignore this. If you want to run this, please enable it");
+                            "无人机位置搜索已关闭，因此我们会忽略它。如果你想运行，请启用它");
                     }
 
                     ImGui.PopID();
@@ -181,12 +181,12 @@ namespace ICE.Ui.MainUi.Settings
 
         private static void JobPriorityUi()
         {
-            ImGui.Text("Provisional Job Priority");
+            ImGui.Text("临时任务职业优先级");
             ImGui_Ice.IconWithTooltip(FontAwesomeIcon.InfoCircle,
-                "Order you would like to do the provisional mission in, if multiple are selected and the option to do multiple classes is enabled");
+                "如果启用了多职业选项且选中多个临时任务，你希望执行临时任务的职业顺序");
 
             bool provisionalAllJobs = C.GrindAllProvisionals;
-            if (ImGui_Ice.SliderButton("##Provisional_AllJobsToggle", "Allow for all Provisional Jobs", ref provisionalAllJobs))
+            if (ImGui_Ice.SliderButton("##Provisional_AllJobsToggle", "允许所有临时任务职业", ref provisionalAllJobs))
             {
                 C.GrindAllProvisionals = provisionalAllJobs;
                 C.Save();
@@ -202,9 +202,9 @@ namespace ICE.Ui.MainUi.Settings
 
             if (ImGui.BeginTable("Job Priority Order", 3, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("ReOrder");
+                ImGui.TableSetupColumn("重排");
                 ImGui.TableSetupColumn("Icon");
-                ImGui.TableSetupColumn("Type");
+                ImGui.TableSetupColumn("类型");
 
                 ImGui.TableHeadersRow();
 
@@ -244,18 +244,18 @@ namespace ICE.Ui.MainUi.Settings
         {
             return jobId switch
             {
-                8 => "Carpenter",
-                9 => "Blacksmith",
-                10 => "Armorer",
-                11 => "Goldsmith",
-                12 => "Leatherworker",
-                13 => "Weaver",
-                14 => "Alchemist",
-                15 => "Culinarian",
-                16 => "Miner",
-                17 => "Botanist",
-                18 => "Fisher",
-                _ => "Unknown Job"
+                8 => "刻木匠",
+                9 => "锻铁匠",
+                10 => "铸甲匠",
+                11 => "雕金匠",
+                12 => "制革匠",
+                13 => "裁衣匠",
+                14 => "炼金术士",
+                15 => "烹调师",
+                16 => "采矿工",
+                17 => "园艺工",
+                18 => "捕鱼人",
+                _ => "未知职业"
             };
         }
     }

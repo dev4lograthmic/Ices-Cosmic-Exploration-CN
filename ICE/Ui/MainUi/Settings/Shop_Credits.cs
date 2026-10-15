@@ -26,7 +26,7 @@ namespace ICE.Ui.MainUi.Settings
 
             bool BuyItems = C.BuyItems;
 
-            if (ImGui.Checkbox("Buy Items", ref BuyItems))
+            if (ImGui.Checkbox("购买物品", ref BuyItems))
             {
                 C.BuyItems = BuyItems;
                 C.StopOnceHitCosmoCredits = false;
@@ -37,14 +37,14 @@ namespace ICE.Ui.MainUi.Settings
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text("This is your personalized shopping list that you can create that it will run when you hit a certain amount of credits.");
-                ImGui.Text("Here's what each of the following does:");
-                ImGui.BulletText("Keep: Will buy up to that many items to make sure that you have in your inventory. This count doesn't go down between runs.\n" +
-                                 "Useful for things like cordials where you want to always have a certain amount on hand");
-                ImGui.BulletText("Buy: Will buy X amount of those items, as it buys it from the vendor, the number will decrease until it hits 0.\n" +
-                                 "Good for one off buys, or something that you only need a particular amount of");
-                ImGui.BulletText("Keep Buying: Once the other 2 have been met (Keep/Buy), it will constantly buy this item if it has the credits to do so.\n" +
-                                 "This can only be set to 1 item, and gererally used for things you want to just spend your credits on");
+                ImGui.Text("这是您的个性化自定义购物清单，当您的宇宙信用点达到指定数量时将会进行购物消费。");
+                ImGui.Text("以下是每个选项的功能说明：");
+                ImGui.BulletText("目标库存：将购买物品直到您的物品栏中拥有设定数量的物品，这个数量不会在每次运行之间减少。\n" +
+                                 "适用于像强心剂这类您希望总是持有一定数量的物品。");
+                ImGui.BulletText("购买数量：将购买 X 个此物品，当您从商人处购买时，这个数量会减少，直到变成 0。\n" +
+                                 "适用于一次性购买，或者您只需要特定数量的物品。");
+                ImGui.BulletText("持续购买：在满足前 2 个条件（目标库存/购买数量）后，如果有足够的宇宙信用点，将持续购买此物品。\n" +
+                                 "只能对 1 个物品进行设置，通常适用于那些您只是想把宇宙信用点花掉的物品。");
                 ImGui.EndTooltip();
             }
             ImGui.NewLine();
@@ -53,14 +53,14 @@ namespace ICE.Ui.MainUi.Settings
             int CosmoKeepAmount = C.CosmoKeepAmount;
 
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Go buy items when you reach", ref buyAtAmount, 0, 30000))
+            if (ImGui.SliderInt("开始购物阈值", ref buyAtAmount, 0, 30000))
             {
                 C.CosmoBuyAtAmount = buyAtAmount;
                 C.SaveDebounced();
             }
 
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Keep this much Cosmocredits", ref CosmoKeepAmount, 0, buyAtAmount))
+            if (ImGui.SliderInt("保留宇宙信用点数量", ref CosmoKeepAmount, 0, buyAtAmount))
             {
                 C.CosmoKeepAmount = CosmoKeepAmount;
                 C.SaveDebounced();
@@ -69,28 +69,28 @@ namespace ICE.Ui.MainUi.Settings
             CheckConfigState();
             if (Task_BuyCosmoItems.CanPurchaseAnyItem())
             {
-                ImGui.Text("You can buy cosmocredit items from the list!");
+                ImGui.Text("您现在可以购买列表中的宇宙信用点物品！");
             }
             else
             {
-                ImGui.Text("You can't buy any items with your current credit value/items (tis fine, this just a test)");
+                ImGui.Text("您当前的宇宙信用点/物品不足以购买任何商品（好吧，这只是测试）");
             }
 
-            if (ImGui.Button("Add Material/Dyes/Items"))
+            if (ImGui.Button("添加材料/染剂/物品"))
             {
                 ImGui.OpenPopup("CosmocreditMateriaPopup");
             }
 
             ImGui.SameLine();
 
-            if (ImGui.Button("Add Armor/Housing/Mounts"))
+            if (ImGui.Button("添加防具/房屋/坐骑"))
             {
                 ImGui.OpenPopup("Cosmocredit_MountArmorPopup");
             }
 
             ImGui.SameLine();
             
-            if (ImGui.Button("Clear shopping list"))
+            if (ImGui.Button("清空购物清单"))
             {
                 C.CosmoShopping.Clear();
                 C.CosmoShoppingOrder.Clear();
@@ -104,13 +104,13 @@ namespace ICE.Ui.MainUi.Settings
             ImGui.Separator();
             ImGui.NewLine();
 
-            DrawShoppingTable("Armor/Housing/Mounts", Shop_Cosmocredits.Shop_MountsCards, C.CosmoShoppingOrder_Gear, GearDragDrop);
+            DrawShoppingTable("防具/房屋/坐骑", Shop_Cosmocredits.Shop_MountsCards, C.CosmoShoppingOrder_Gear, GearDragDrop);
 
             // Draw separate tables for each shop type
 
             ImGui.NewLine();
 
-            DrawShoppingTable("Materials/Dyes/Items", Shop_Cosmocredits.Shop_MateriaDye, C.CosmoShoppingOrder, MaterialDragDrop);
+            DrawShoppingTable("材料/染剂/物品", Shop_Cosmocredits.Shop_MateriaDye, C.CosmoShoppingOrder, MaterialDragDrop);
         }
 
         private static void DrawAddItemPopups()
@@ -199,25 +199,25 @@ namespace ICE.Ui.MainUi.Settings
         {
             if (orderList.Count == 0)
             {
-                ImGui.TextDisabled($"No items in {tableName} shopping list");
+                ImGui.TextDisabled($"{tableName} 购物清单中没有物品");
                 return;
             }
 
-            ImGui.Text($"{tableName} ({orderList.Count} items)");
+            ImGui.Text($"{tableName}（{orderList.Count} 个物品）");
 
             dragDrop.Begin();
 
             if (ImGui.BeginTable($"Shopping_{tableName}", 10, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.RowBg | ImGuiTableFlags.Borders))
             {
-                ImGui.TableSetupColumn("Order", ImGuiTableColumnFlags.WidthFixed);
-                ImGui.TableSetupColumn("Name");
-                ImGui.TableSetupColumn("Have", ImGuiTableColumnFlags.WidthFixed);
-                ImGui.TableSetupColumn("Cost", ImGuiTableColumnFlags.WidthFixed);
-                ImGui.TableSetupColumn("Kind", ImGuiTableColumnFlags.WidthFixed);
-                ImGui.TableSetupColumn("Unlocked", ImGuiTableColumnFlags.WidthFixed);
-                ImGui.TableSetupColumn("Keep", ImGuiTableColumnFlags.WidthFixed);
-                ImGui.TableSetupColumn("Buy", ImGuiTableColumnFlags.WidthFixed);
-                ImGui.TableSetupColumn("Keep Buying", ImGuiTableColumnFlags.WidthFixed);
+                ImGui.TableSetupColumn("顺序", ImGuiTableColumnFlags.WidthFixed);
+                ImGui.TableSetupColumn("名称");
+                ImGui.TableSetupColumn("持有", ImGuiTableColumnFlags.WidthFixed);
+                ImGui.TableSetupColumn("价格", ImGuiTableColumnFlags.WidthFixed);
+                ImGui.TableSetupColumn("类型", ImGuiTableColumnFlags.WidthFixed);
+                ImGui.TableSetupColumn("已解锁", ImGuiTableColumnFlags.WidthFixed);
+                ImGui.TableSetupColumn("目标库存", ImGuiTableColumnFlags.WidthFixed);
+                ImGui.TableSetupColumn("购买数量", ImGuiTableColumnFlags.WidthFixed);
+                ImGui.TableSetupColumn("持续购买", ImGuiTableColumnFlags.WidthFixed);
                 ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed);
 
                 ImGui.TableHeadersRow();
@@ -277,7 +277,7 @@ namespace ICE.Ui.MainUi.Settings
 
             // Unlocked (for consumable items like mounts, orchestrion rolls, cards, etc.)
             ImGui.TableNextColumn();
-            ImGui.TextUnformatted(UnlockState.IsItemUnlockable(itemInfo) ? UnlockState.IsItemUnlocked(itemInfo) ? "Yes" : "No" : "-");
+            ImGui.TextUnformatted(UnlockState.IsItemUnlockable(itemInfo) ? UnlockState.IsItemUnlocked(itemInfo) ? "是" : "否" : "-");
 
             // Keep Amount
             ImGui.TableNextColumn();

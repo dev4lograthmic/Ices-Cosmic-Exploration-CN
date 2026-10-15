@@ -15,20 +15,20 @@ namespace ICE.Ui.MainUi.Settings
 
         public static unsafe void Draw_Old()
         {
-            if (ImGui.Checkbox("Enable Auto Gamba", ref gambaEnabled))
+            if (ImGui.Checkbox("启用 自动宇宙好运道", ref gambaEnabled))
             {
                 C.GambaEnabled = gambaEnabled;
                 C.Save();
             }
-            ImGuiEx.HelpMarker("If you want to let it auto select the wheels and gamba, enable this. If you want to not auto run when you're running the gamble wheel, disable this.");
+            ImGuiEx.HelpMarker("启用此选项将自动选择转盘进行宇宙好运道。如果您不希望玩宇宙好运道时自动执行，请禁用此选项。");
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Mininum credits to keep", ref gambaCreditsMinimum, 0, 10000))
+            if (ImGui.SliderInt("保留最低信用点数量", ref gambaCreditsMinimum, 0, 10000))
             {
                 C.GambaCreditsMinimum = gambaCreditsMinimum;
                 C.SaveDebounced();
             }
             bool gambaBetween = C.GambaBetweenRuns;
-            if (ImGui.Checkbox("Gamble Between Runs", ref gambaBetween))
+            if (ImGui.Checkbox("运行期间玩宇宙好运道", ref gambaBetween))
             {
                 C.GambaBetweenRuns = gambaBetween;
                 C.Save();
@@ -36,18 +36,18 @@ namespace ICE.Ui.MainUi.Settings
             ImGui.SameLine();
             GambaSlider();
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Gamba Delay", ref gambaDelay, 50, 2000))
+            if (ImGui.SliderInt("抽奖延迟(ms)", ref gambaDelay, 50, 2000))
             {
                 C.GambaDelay = gambaDelay;
                 C.SaveDebounced();
             }
 
-            if (ImGui.Checkbox("Prefer smaller wheel", ref gambaPreferSmallerWheel))
+            if (ImGui.Checkbox("优先更小的转盘", ref gambaPreferSmallerWheel))
             {
                 C.GambaPreferSmallerWheel = gambaPreferSmallerWheel;
                 C.Save();
             }
-            ImGuiEx.HelpMarker("This will make the Gamba prefer wheels with less items.");
+            ImGuiEx.HelpMarker("此选项将优先选择物品数量更少的转盘");
 
             if (PlayerHelper.IsInCosmicZone())
             {
@@ -55,18 +55,18 @@ namespace ICE.Ui.MainUi.Settings
                 if (CosmicMoonRegistry.TryGetPlanetCreditItemId(territory, out var itemId))
                 {
                     PlayerHelper.GetItemCount(itemId, out var credits);
-                    ImGui.Text($"Current location: {territory} | Currency Amount: {credits}");
+                    ImGui.Text($"当前地图: {territory} | 信用点数量: {credits}");
                 }
             }
 
             ImGui.Separator();
-            ImGui.TextUnformatted("Configure the weights for each item in the Gamba. Higher weight = more desirable.");
+            ImGui.TextUnformatted("配置宇宙好运道每个物品的权重，物品权重越高 = 越优先获取该物品");
             ImGui.Spacing();
             foreach (GambaType type in Enum.GetValues(typeof(GambaType)))
             {
                 var itemsType = C.GambaItemWeights.Where(x => x.Type == type).OrderBy(x => x.ItemId).ToList();
                 if (itemsType.Count == 0) continue;
-                if (ImGui.TreeNodeEx($"{type} ({itemsType.Count})##gamba_type_{type}", ImGuiTreeNodeFlags.DefaultOpen))
+                if (ImGui.TreeNodeEx($"{GambaTypeName(type)} ({itemsType.Count})##gamba_type_{type}", ImGuiTreeNodeFlags.DefaultOpen))
                 {
                     ImGui.Indent();
                     foreach (var gamba in itemsType)
@@ -84,7 +84,7 @@ namespace ICE.Ui.MainUi.Settings
                     ImGui.TreePop();
                 }
             }
-            if (ImGui.Button("Reset Weights"))
+            if (ImGui.Button("重置权重"))
             {
                 Task_Gamba.EnsureGambaWeightsInitialized(true);
             }
@@ -93,38 +93,38 @@ namespace ICE.Ui.MainUi.Settings
         public static unsafe void Draw()
         {
             bool gambaEnabled = C.GambaEnabled;
-            if (ImGui.Checkbox("Enable Auto Gamba Wheel", ref gambaEnabled))
+            if (ImGui.Checkbox("启用 自动宇宙好运道", ref gambaEnabled))
             {
                 C.GambaEnabled = gambaEnabled;
                 C.Save();
             }
-            ImGuiEx.HelpMarker("If you want to let it auto select the wheels and gamba, enable this. If you want to not auto run when you're running the gamble wheel, disable this.");
+            ImGuiEx.HelpMarker("启用此选项将自动选择转盘进行宇宙好运道。如果您不希望玩宇宙好运道时自动执行，请禁用此选项。");
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Mininum credits to keep", ref gambaCreditsMinimum, 0, 10000))
+            if (ImGui.SliderInt("保留最低信用点数量", ref gambaCreditsMinimum, 0, 10000))
             {
                 C.GambaCreditsMinimum = gambaCreditsMinimum;
                 C.SaveDebounced();
             }
             bool gambaBetween = C.GambaBetweenRuns;
-            if (ImGui.Checkbox("Gamble Between Runs", ref gambaBetween))
+            if (ImGui.Checkbox("运行期间玩宇宙好运道", ref gambaBetween))
             {
                 C.GambaBetweenRuns = gambaBetween;
                 C.Save();
             }
             GambaSlider();
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Gamba Delay", ref gambaDelay, 50, 2000))
+            if (ImGui.SliderInt("抽奖延迟(ms)", ref gambaDelay, 50, 2000))
             {
                 C.GambaDelay = gambaDelay;
                 C.SaveDebounced();
             }
 
-            if (ImGui.Checkbox("Prefer smaller wheel", ref gambaPreferSmallerWheel))
+            if (ImGui.Checkbox("优先更小的转盘", ref gambaPreferSmallerWheel))
             {
                 C.GambaPreferSmallerWheel = gambaPreferSmallerWheel;
                 C.Save();
             }
-            ImGuiEx.HelpMarker("This will make the Gamba prefer wheels with less items.");
+            ImGuiEx.HelpMarker("此选项将优先选择物品数量更少的转盘");
 
             if (PlayerHelper.IsInCosmicZone())
             {
@@ -132,14 +132,14 @@ namespace ICE.Ui.MainUi.Settings
                 if (CosmicMoonRegistry.TryGetPlanetCreditItemId(territory, out var itemId))
                 {
                     PlayerHelper.GetItemCount(itemId, out var credits);
-                    ImGui.Text($"Current location: {territory} | Currency Amount: {credits}");
+                    ImGui.Text($"当前地图: {territory} | 信用点数量: {credits}");
                 }
             }
 
             ImGui.Separator();
-            ImGui.TextUnformatted("Configure the weights for each item in the Gamba. Higher weight = more desirable.");
+            ImGui.TextUnformatted("配置宇宙好运道每个物品的权重，物品权重越高 = 越优先获取该物品");
 
-            if (ImGui.Button("Reset Weights"))
+            if (ImGui.Button("重置权重"))
             {
                 Task_Gamba.EnsureGambaWeightsInitialized(true);
             }
@@ -151,14 +151,14 @@ namespace ICE.Ui.MainUi.Settings
                     var itemsType = C.GambaItemWeights.Where(x => x.Type == type).OrderBy(x => x.ItemId).ToList();
                     if (itemsType.Count == 0) continue;
 
-                    if (ImGui.BeginTabItem($"{type.ToString()} [{itemsType.Count}]"))
+                    if (ImGui.BeginTabItem($"{GambaTypeName(type)} [{itemsType.Count}]"))
                     {
                         if (ImGui.BeginTable($"{type.ToString()}_GambaItems", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg))
                         {
-                            ImGui.TableSetupColumn("Icon");
-                            ImGui.TableSetupColumn("Unlocked");
-                            ImGui.TableSetupColumn("Name");
-                            ImGui.TableSetupColumn("Weight");
+                            ImGui.TableSetupColumn("图标");
+                            ImGui.TableSetupColumn("解锁");
+                            ImGui.TableSetupColumn("名称");
+                            ImGui.TableSetupColumn("权重");
 
                             ImGui.TableHeadersRow();
 
@@ -187,7 +187,7 @@ namespace ICE.Ui.MainUi.Settings
                                     }
 
                                     ImGui.TableNextColumn();
-                                    ImGui.TextUnformatted(UnlockState.IsItemUnlockable(itemInfo) ? UnlockState.IsItemUnlocked(itemInfo) ? "Yes" : "No" : "-");
+                                    ImGui.TextUnformatted(UnlockState.IsItemUnlockable(itemInfo) ? UnlockState.IsItemUnlocked(itemInfo) ? "是" : "否" : "-");
                                     
                                     ImGui.TableNextColumn();
                                     ImGui.Text($"{name}");
@@ -213,6 +213,21 @@ namespace ICE.Ui.MainUi.Settings
             }
         }
 
+        private static string GambaTypeName(GambaType type) => type switch
+        {
+            GambaType.Mount => "坐骑",
+            GambaType.Emote => "情感动作",
+            GambaType.Minion => "宠物",
+            GambaType.Outfit => "套装",
+            GambaType.Accessory => "时尚配饰",
+            GambaType.Orchestrion => "管弦乐琴乐谱",
+            GambaType.Housing => "房屋用品",
+            GambaType.Dye => "染剂",
+            GambaType.Other => "其他",
+            GambaType.Materia => "魔晶石",
+            _ => type.ToString()
+        };
+
         private static int[] allowedValues = { 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000 };
         private static void GambaSlider()
         {
@@ -225,7 +240,7 @@ namespace ICE.Ui.MainUi.Settings
             }
 
             ImGui.SetNextItemWidth(150);
-            if (ImGui.SliderInt("Start Gambling @", ref currentIndex, 0, allowedValues.Length - 1,
+            if (ImGui.SliderInt("开始抽奖阈值", ref currentIndex, 0, allowedValues.Length - 1,
                 allowedValues[currentIndex].ToString()))
             {
                 C.GambaAtAmount = allowedValues[currentIndex];
