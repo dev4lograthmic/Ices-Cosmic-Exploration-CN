@@ -114,6 +114,7 @@
 |---|---|---|
 | Mission Name | 任务名称 | 参照 |
 | Score | 技巧点 | 参照 |
+| Mastery | 熟练点 | |
 | Sort / Sort by | 排序方式 | 参照 |
 | Map position | 地图位置 | 参照 |
 | Class score | 职业技巧点 | 参照 |

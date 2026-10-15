@@ -638,7 +638,7 @@ namespace ICE.Ui
                         ImGui.AlignTextToFramePadding();
                     }
 
-                    ImGui_Ice.Draw_XPBar(classInfo.Mastery, 0, 500_000, $"精通：{classInfo.Mastery:N0} / {500_000:N0}");
+                    ImGui_Ice.Draw_XPBar(classInfo.Mastery, 0, 500_000, $"熟练点：{classInfo.Mastery:N0} / {500_000:N0}");
                 }
             }
         }

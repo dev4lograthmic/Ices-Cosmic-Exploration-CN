@@ -323,7 +323,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                     ImGui.TableSetupColumn("##Relic_XPBar");
                     ImGui.TableSetupColumn("技巧点");
                     ImGui.TableSetupColumn("##Score_XPBar");
-                    ImGui.TableSetupColumn("精通");
+                    ImGui.TableSetupColumn("熟练点");
                     ImGui.TableSetupColumn("##Mastery_XPBar");
 
                     ImGui.TableHeadersRow();
@@ -436,7 +436,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui_Ice.Table_FullCenterText($"精通技巧点");
+                    ImGui_Ice.Table_FullCenterText($"熟练技巧点");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);

@@ -144,7 +144,7 @@ namespace ICE.Ui.MainUi.Settings
             #region Mastery Score
 
             bool stopMastery = C.StopWhenMasteryComplete;
-            if (ImGui.Checkbox("精通完成时停止", ref stopMastery))
+            if (ImGui.Checkbox("熟练点完成时停止", ref stopMastery))
             {
                 C.StopWhenMasteryComplete = stopMastery;
                 C.SaveDebounced();

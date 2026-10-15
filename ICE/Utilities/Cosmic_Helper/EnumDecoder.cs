@@ -22,7 +22,7 @@ public static unsafe partial class CosmicHelper
             PlaylistOptions.ClassScore => "职业技巧点",
             PlaylistOptions.GoldClassMissions => "全部任务达成金星",
             PlaylistOptions.ToolMaxExp => "宇宙工具满级经验",
-            PlaylistOptions.MasteryScore => "精通",
+            PlaylistOptions.MasteryScore => "熟练点",
             _ => "???"
         };
     }

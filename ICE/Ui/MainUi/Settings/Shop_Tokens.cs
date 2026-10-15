@@ -18,13 +18,13 @@ namespace ICE.Ui.MainUi.Settings
             var enableMountBuy = C.PlanetMount_Enable;
             var mountBuyAmount = C.PlanetMount_Amount;
 
-            if (ImGui.Checkbox("购买小册子", ref enableBooklet))
+            if (ImGui.Checkbox("兑换探索计划证书", ref enableBooklet))
             {
                 C.BookletBuy_Enable = enableBooklet;
                 C.SaveDebounced();
             }
             ImGui.SetNextItemWidth(200);
-            if (ImGui.InputInt("购买小册子 @", ref bookletAmount))
+            if (ImGui.InputInt("兑换探索计划证书 @", ref bookletAmount))
             {
                 if (bookletAmount > 99)
                 {
@@ -33,13 +33,13 @@ namespace ICE.Ui.MainUi.Settings
                 }
             }
 
-            if (ImGui.Checkbox("购买坐骑", ref enableMountBuy))
+            if (ImGui.Checkbox("兑换坐骑", ref enableMountBuy))
             {
                 C.PlanetMount_Enable = enableMountBuy;
                 C.SaveDebounced();
             }
             ImGui.SetNextItemWidth(200);
-            if (ImGui.InputInt("购买坐骑 @", ref mountBuyAmount))
+            if (ImGui.InputInt("兑换坐骑 @", ref mountBuyAmount))
             {
                 if (mountBuyAmount > 59)
                 {
@@ -52,7 +52,7 @@ namespace ICE.Ui.MainUi.Settings
             {
                 ImGui.TableSetupColumn("行星");
                 ImGui.TableSetupColumn("票据");
-                ImGui.TableSetupColumn("小册子");
+                ImGui.TableSetupColumn("探索计划证书");
                 ImGui.TableSetupColumn("坐骑");
                 ImGui.TableSetupColumn("已解锁");
 

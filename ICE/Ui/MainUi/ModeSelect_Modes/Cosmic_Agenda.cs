@@ -621,11 +621,11 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
                                 var masteryScore = CosmicHelper.Cosmic_ClassInfo();
                                 if (masteryScore.TryGetValue(agendaInfo.SelectedJob, out var job))
                                 {
-                                    ImGui.SetTooltip($"当前精通: {job.Mastery:N0}");
+                                    ImGui.SetTooltip($"当前熟练点: {job.Mastery:N0}");
                                 }
                                 else
                                 {
-                                    ImGui.SetTooltip("无法载入精通信息");
+                                    ImGui.SetTooltip("无法载入熟练点信息");
                                 }
                             }
                         }
