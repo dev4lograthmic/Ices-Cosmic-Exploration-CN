@@ -16,7 +16,7 @@ namespace ICE.Ui
 {
     internal class OverlayWindow : Window
     {
-        public OverlayWindow() : base("ICE Overlay")
+        public OverlayWindow() : base("ICE 悬浮窗")
         {
             Flags = ImGuiWindowFlags.None;
             RespectCloseHotkey = false;
@@ -25,7 +25,7 @@ namespace ICE.Ui
             TitleBarButtons.Add(
                 new()
                 {
-                    ShowTooltip = () => ImGui.SetTooltip("Overlay Settings"),
+                    ShowTooltip = () => ImGui.SetTooltip("悬浮窗设置"),
                     Icon = FontAwesomeIcon.Cog,
                     IconOffset = new(1, 1),
                     Click = _ => ImGui.OpenPopup("OverlaySettingsPopup")
@@ -67,8 +67,8 @@ namespace ICE.Ui
             {
                 ImGui.TableSetupColumn("##Planets");
                 ImGui.TableSetupColumn("##Icons");
-                ImGui.TableSetupColumn("Current");
-                ImGui.TableSetupColumn("Next");
+                ImGui.TableSetupColumn("当前");
+                ImGui.TableSetupColumn("下一个");
 
                 ImGui.TableHeadersRow();
 
@@ -112,7 +112,7 @@ namespace ICE.Ui
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text("Open ICE");
+                ImGui.Text("打开 ICE");
                 ImGui.EndTooltip();
             }
             ImGui.SameLine();
@@ -123,7 +123,7 @@ namespace ICE.Ui
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text("Change mode");
+                ImGui.Text("切换模式");
                 ImGui.EndTooltip();
             }
             DrawModeSelectPopup("Overlay Mode Select");
@@ -146,7 +146,7 @@ namespace ICE.Ui
                 if (ImGui.IsItemHovered())
                 {
                     ImGui.BeginTooltip();
-                    ImGui.Text(droneActive ? "Stop Drone Finder" : "Run Drone Finder");
+                    ImGui.Text(droneActive ? "停止无人机搜索" : "运行无人机搜索");
                     ImGui.EndTooltip();
                 }
             }
@@ -154,11 +154,11 @@ namespace ICE.Ui
 
             var modeName = C.SelectedMode switch
             {
-                ModeSelect.Standard => "Standard",
-                ModeSelect.RelicMode => "Relic Grind",
-                ModeSelect.LevelMode => "Leveling Grind",
-                ModeSelect.AgendaMode => "Cosmic Agenda",
-                ModeSelect.MissionGoldMode => "Gold Completion Grind",
+                ModeSelect.Standard => "标准模式",
+                ModeSelect.RelicMode => "宇宙工具研究数据刷取模式",
+                ModeSelect.LevelMode => "练级模式",
+                ModeSelect.AgendaMode => "日程模式",
+                ModeSelect.MissionGoldMode => "金星完成模式",
                 _ => C.SelectedMode.ToString(),
             };
             ImGui.Text($"{modeName} - {SchedulerMain.State}");
@@ -179,7 +179,7 @@ namespace ICE.Ui
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text(running ? "Stop" : "Start");
+                ImGui.Text(running ? "停止" : "开始");
                 ImGui.EndTooltip();
             }
 
@@ -197,7 +197,7 @@ namespace ICE.Ui
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text(Mission_Settings.StopAfterCurrent ? "Stop after current mission: ON" : "Stop after current mission: OFF");
+                ImGui.Text(Mission_Settings.StopAfterCurrent ? "当前任务结束后停止：开" : "当前任务结束后停止：关");
                 ImGui.EndTooltip();
             }
 
@@ -216,12 +216,12 @@ namespace ICE.Ui
                 {
                     PlayerHelper.GetItemCount(dronebit.boxId, out var count);
 
-                    ImGui.Text($"Dronebox Count: {count:N0}");
+                    ImGui.Text($"无人机箱数量：{count:N0}");
                 }
             }
             else
             {
-                ImGui.Text("No mission");
+                ImGui.Text("无任务");
             }
 #if DEBUG
             if (C.ShowDebugGatherInfo)
@@ -300,7 +300,7 @@ namespace ICE.Ui
                             }
                         }
                         ImGui.AlignTextToFramePadding();
-                        ImGui.Text($"[{mission.Key}] {mission.Value.Name} ({mission.Value.TokenItemAmount}x tokens)");
+                        ImGui.Text($"[{mission.Key}] {mission.Value.Name}（{mission.Value.TokenItemAmount}x 票据）");
                     }
                 }
                 if (C.Overlay_WeatherSelected)
@@ -380,7 +380,7 @@ namespace ICE.Ui
                 if (i > 1)
                     ImGui.SameLine(0, 2);
 
-                DrawWeatherIcon(weatherForecasts[i], weatherMissions, $"In: {WeatherForecastHandler.FormatForecastTime(weatherForecasts[i].Time)}");
+                DrawWeatherIcon(weatherForecasts[i], weatherMissions, $"距出现：{WeatherForecastHandler.FormatForecastTime(weatherForecasts[i].Time)}");
             }
         }
         private unsafe void TimedMissionDetailsForTerritory(uint territoryId, string moonAsset)
@@ -451,7 +451,7 @@ namespace ICE.Ui
                         ImGui.SameLine(0, 2);
                         ImGui.Text($"{mission.Value.Name}");
                         var expires = EorzeaHoursUntil(eorzeaTime, (int)mission.Value.EndTime);
-                        ImGui.Text($"Expires in {FormatRealTime(expires)}");
+                        ImGui.Text($"剩余 {FormatRealTime(expires)}");
                         ImGui.EndTooltip();
                     }
                 }
@@ -476,7 +476,7 @@ namespace ICE.Ui
                         var startsIn = EorzeaHoursUntil(eorzeaTime, (int)mission.Value.StartTime);
                         // Show which hour slot this is if it's not the immediate next hour
                         int hoursAhead = ((nextHour - currentHour) + 24) % 24;
-                        string timeLabel = hoursAhead == 1 ? "Starts in" : $"Starts in ~{hoursAhead}h |";
+                        string timeLabel = hoursAhead == 1 ? "即将开始" : $"约 {hoursAhead} 小时后开始 |";
                         ImGui.Text($"{timeLabel} {FormatRealTime(startsIn)}");
                         ImGui.EndTooltip();
                     }
@@ -511,7 +511,7 @@ namespace ICE.Ui
             if (ImGui.IsItemHovered())
             {
                 ImGui.BeginTooltip();
-                ImGui.Text(icon == FontAwesomeIcon.Cloud ? "Weather" : "Timed");
+                ImGui.Text(icon == FontAwesomeIcon.Cloud ? "天气" : "限时");
                 ImGui.EndTooltip();
             }
         }
@@ -529,7 +529,7 @@ namespace ICE.Ui
             int totalSeconds = (int)(eorzeaHours * 175);
             int minutes = totalSeconds / 60;
             int seconds = totalSeconds % 60;
-            return minutes > 0 ? $"{minutes}m {seconds:D2}s" : $"{seconds}s";
+            return minutes > 0 ? $"{minutes}分{seconds:D2}秒" : $"{seconds}秒";
         }
         private bool IsAvailableAtHour(CosmicInfo mission, int hour)
         {
@@ -563,7 +563,7 @@ namespace ICE.Ui
                                 ImGui.AlignTextToFramePadding();
                             }
 
-                            ImGui_Ice.Draw_XPBar(classInfo.Score, 0, 500_000, $"Class Score: {classInfo.Score:N0} / {500_000:N0}");
+                            ImGui_Ice.Draw_XPBar(classInfo.Score, 0, 500_000, $"职业技巧点：{classInfo.Score:N0} / {500_000:N0}");
                         }
                     }
                 }
@@ -579,7 +579,7 @@ namespace ICE.Ui
                             ImGui.AlignTextToFramePadding();
                         }
 
-                        ImGui_Ice.Draw_XPBar(classInfo.Score, 0, 500_000, $"Class Score: {classInfo.Score:N0} / {500_000:N0}");
+                        ImGui_Ice.Draw_XPBar(classInfo.Score, 0, 500_000, $"职业技巧点：{classInfo.Score:N0} / {500_000:N0}");
                     }
                 }
             }
@@ -601,11 +601,11 @@ namespace ICE.Ui
 
                 if (totalCompleted != 11)
                 {
-                    ImGui_Ice.Draw_XPBar(currentTotal, 0, maxScore, label: $"Total: {currentTotal:N0} / {maxScore:N0} [{totalCompleted} / 11]");
+                    ImGui_Ice.Draw_XPBar(currentTotal, 0, maxScore, label: $"总计：{currentTotal:N0} / {maxScore:N0} [{totalCompleted} / 11]");
                 }
                 else
                 {
-                    ImGui_Ice.Draw_XPBar(actualTotal, 0, maxScore, label: $"Total Score: {actualTotal:N0}");
+                    ImGui_Ice.Draw_XPBar(actualTotal, 0, maxScore, label: $"总技巧点：{actualTotal:N0}");
                 }
                 if (ImGui.IsItemHovered())
                 {
@@ -619,7 +619,7 @@ namespace ICE.Ui
                         ImGui.Image(jobImage.JobIcon.GetWrapOrEmpty().Handle, new Vector2(23, 23));
                         ImGui.SameLine();
                         ImGui.AlignTextToFramePadding();
-                        ImGui.Text($"Score: {jobScore:N0}");
+                        ImGui.Text($"技巧点：{jobScore:N0}");
                     }
 
                     ImGui.EndTooltip();
@@ -638,7 +638,7 @@ namespace ICE.Ui
                         ImGui.AlignTextToFramePadding();
                     }
 
-                    ImGui_Ice.Draw_XPBar(classInfo.Mastery, 0, 500_000, $"Mastery: {classInfo.Mastery:N0} / {500_000:N0}");
+                    ImGui_Ice.Draw_XPBar(classInfo.Mastery, 0, 500_000, $"精通：{classInfo.Mastery:N0} / {500_000:N0}");
                 }
             }
         }
@@ -661,7 +661,7 @@ namespace ICE.Ui
             {
                 var currentJobId = (uint)Player.Job;
                 var flags = C.Overlay_RelicXpExpanded ? ImGuiTreeNodeFlags.DefaultOpen : ImGuiTreeNodeFlags.None;
-                var open = ImGui.CollapsingHeader("Relic Tool XP", flags);
+                var open = ImGui.CollapsingHeader("宇宙工具研究数据", flags);
                 if (open != C.Overlay_RelicXpExpanded)
                 {
                     C.Overlay_RelicXpExpanded = open;
@@ -670,7 +670,7 @@ namespace ICE.Ui
                 if (open)
                 {
                     bool stopWhen = C.StopAtRelicLv;
-                    if (ImGui.Checkbox("Stop At Relic Lv.", ref stopWhen))
+                    if (ImGui.Checkbox("宇宙工具达到指定等级时停止", ref stopWhen))
                     {
                         C.StopAtRelicLv = stopWhen;
                         C.Save();
