@@ -154,7 +154,7 @@
 | Sinus Ardorum | 憧憬湾 | 参照 |
 | Phaenna | 法恩娜行星 | 参照 |
 | Oizys | 俄匊斯行星 | 参照 |
-| Auxesia | 奥克塞西亚 | — |
+| Auxesia | 奥克塞西亚行星 | 国服（wiki/NGA） |
 
 ## 7. 遗物经验面板（Relic_XP）
 
