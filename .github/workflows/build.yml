@@ -17,7 +17,6 @@ jobs:
   build:
     runs-on: windows-latest
     env:
-      DALAMUD_HOME: ${{ github.workspace }}\dalamud
       DOTNET_NOLOGO: true
     steps:
       - name: Checkout
@@ -34,8 +33,11 @@ jobs:
       - name: Download Dalamud
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile dalamud.zip
-          Expand-Archive -Force dalamud.zip "$env:DALAMUD_HOME"
+          $dest = "$env:APPDATA\XIVLauncher\addon\Hooks\dev"
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+          Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile "$env:RUNNER_TEMP\dalamud.zip"
+          Expand-Archive -Force "$env:RUNNER_TEMP\dalamud.zip" $dest
+          Write-Host "Dalamud extracted to $dest"
 
       - name: Build
         run: dotnet build ICE/ICE.csproj --configuration Release
