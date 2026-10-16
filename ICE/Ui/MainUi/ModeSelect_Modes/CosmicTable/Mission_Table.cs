@@ -157,7 +157,7 @@ public static class CosmicTables
         private readonly LunarCreditColumn _lunarColumn = new() { Label = "行星信用点" };
         private readonly DroneCreditColumn _droneColumn = new() { Label = "无人机晶片" };
         private readonly PlanetTokensColumn _planetTokenColumn = new() { Label = "票据" };
-        private readonly SPMColumn _spmColumn = new() { Label = "SPM" };
+        private readonly SPMColumn _spmColumn = new() { Label = "每分钟奖励" };
         private readonly TurninColumn _turninColumn = new() { Label = "汇报" };
         private readonly PlanetColumn _planetColumn = new() { Label = "地图" };
         private readonly ProfileColumn _profileColumn = new() { Label = "采集配置" };

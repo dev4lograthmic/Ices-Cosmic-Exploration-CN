@@ -107,7 +107,7 @@ public static partial class SettingsUi
 
             ImGui.SameLine();
             var showMasteryScore = C.ShowMasteryScore;
-            if (ImGui.Checkbox("显示熟练技巧点", ref showMasteryScore))
+            if (ImGui.Checkbox("显示当前职业熟练点", ref showMasteryScore))
             {
                 C.ShowMasteryScore = showMasteryScore;
                 C.Save();

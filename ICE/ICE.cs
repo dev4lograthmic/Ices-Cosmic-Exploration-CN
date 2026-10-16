@@ -332,19 +332,19 @@ public sealed partial class ICE : IDalamudPlugin
         }
         else if (firstArg.ToLower() == "help")
         {
-            string helpMessage = $"- - ICE 命令帮助 - - \n" +
+            string helpMessage = $" - - - ICE 命令帮助 - - -  \n" +
                                  $"/ice help - 显示所有可用命令\n" +
                                  $"/ice -> 打开主设置界面\n" +
                                  $"/ice s -> 打开设置菜单\n" +
                                  $" - - - 任务相关 - - - \n" +
                                  $"/ice stop - 停止 ICE\n" +
                                  $"/ice start - 启动 ICE \n" +
-                                 $"其余命令通过单个或多个 id 连续输入来使用 \n" +
+                                 $"以下命令通过单个或多个 id 连续输入来使用 \n" +
                                  $"例如: /ice add 10 155 185\n" +
                                  $"/ice add (ids) - 启用选定的任务\n" +
                                  $"/ice remove (ids) - 移除/禁用选定的任务\n" +
-                                 $"/ice toggle (ids) - 切换选定任务 id 的启用状态" +
-                                 $"/ice only (ids) - 仅启用选定的任务" +
+                                 $"/ice toggle (ids) - 切换选定任务 id 的启用状态\n" +
+                                 $"/ice only (ids) - 仅启用选定的任务\n" +
                                  $"/ice flag (id) - 打开地图并标记该任务（若它有标记点）。\n";
             Svc.Chat.Print(helpMessage);
         }

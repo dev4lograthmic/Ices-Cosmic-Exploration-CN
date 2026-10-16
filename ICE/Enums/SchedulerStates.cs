@@ -3,7 +3,7 @@ namespace ICE.Enums
     [Flags]
     internal enum IceState
     {
-        Idle = 0,
+         Idle = 0,
         Start = 1,
         GrabMission = 2,
         ExecutingMission = 3,

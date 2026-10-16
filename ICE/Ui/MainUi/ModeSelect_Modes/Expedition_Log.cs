@@ -436,7 +436,7 @@ namespace ICE.Ui.MainUi.ModeSelect_Modes
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui_Ice.Table_FullCenterText($"熟练技巧点");
+                    ImGui_Ice.Table_FullCenterText($"职业熟练点");
 
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
