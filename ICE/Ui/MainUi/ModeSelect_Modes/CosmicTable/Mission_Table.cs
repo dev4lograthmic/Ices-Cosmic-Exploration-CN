@@ -343,8 +343,8 @@ public static class CosmicTables
                     {
                         if (tooltip.Alive)
                         {
-                            ImGui.Text("HEY! YOU DON'T HAVE COLLECTABLES UNLOCKED. YOU CAN'T DO THESE MISSIONS");
-                            ImGui.Text("Go to Idyllshire and accept the quest \"Inscrutable Taste\"");
+                            ImGui.Text("嘿！你还没有解锁收藏品，无法执行这些任务");
+                            ImGui.Text("前往伊修加德接受任务“一流工匠的新工作”");
                         }
                     }
                 }
@@ -359,8 +359,8 @@ public static class CosmicTables
                     {
                         if (tooltip.Alive)
                         {
-                            ImGui.Text("HEY! YOU DON'T HAVE REDUCABLES UNLOCKED. YOU CAN'T DO THESE MISSIONS");
-                            ImGui.Text("Go to Mor Dhona and accept the quest \"No Longer a Collectable\"");
+                            ImGui.Text("嘿！你还没有解锁精选，无法执行这些任务");
+                            ImGui.Text("前往摩杜纳接受任务“生命、精选，另一个答案”");
                         }
                     }
                 }
