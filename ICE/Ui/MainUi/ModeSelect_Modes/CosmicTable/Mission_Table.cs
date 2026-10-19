@@ -344,7 +344,23 @@ public static class CosmicTables
                         if (tooltip.Alive)
                         {
                             ImGui.Text("嘿！你还没有解锁收藏品，无法执行这些任务");
-                            ImGui.Text("前往摩杜纳接受任务“不再是收藏品”");
+                            ImGui.Text("前往伊修加德接受任务“一流工匠的新工作”");
+                        }
+                    }
+                }
+                ImGui.SameLine();
+            }
+            if (mission.SheetInfo.Attributes.HasFlag(MissionAttributes.ReducedItems) && !QuestCheck.ReductionUnlocked())
+            {
+                ImGuiEx.IconButton(FontAwesomeIcon.ExclamationTriangle, "Warning_Reduction");
+                if (ImGui.IsItemHovered())
+                {
+                    using (var tooltip = ImRaii.Tooltip())
+                    {
+                        if (tooltip.Alive)
+                        {
+                            ImGui.Text("嘿！你还没有解锁精选，无法执行这些任务");
+                            ImGui.Text("前往摩杜纳接受任务“生命、精选，另一个答案”");
                         }
                     }
                 }
