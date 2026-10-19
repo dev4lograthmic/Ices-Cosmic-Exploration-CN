@@ -82,9 +82,57 @@ jobs:
             "publish=true" >> $env:GITHUB_OUTPUT
           }
 
+      - name: Extract changelog from release merge
+        if: steps.check.outputs.publish == 'true'
+        id: changelog
+        shell: pwsh
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          # 本次 push 范围内、Main-Branch 主线上最新的合并提交
+          $range = if ($env:BEFORE -and $env:BEFORE -notmatch '^0+$') { "$env:BEFORE..$env:AFTER" } else { $null }
+          $merge = if ($range) {
+            git log --first-parent --merges --format='%H' $range | Select-Object -First 1
+          } else {
+            $null
+          }
+
+          # tag 触发或首次 push：当前提交本身必须是合并提交
+          if (-not $merge) {
+            $parents = @(((git rev-list --parents -n 1 $env:AFTER) -join ' ').Trim() -split '\s+')
+            if ($parents.Count -ge 3) { $merge = $env:AFTER }
+          }
+          if (-not $merge) {
+            throw '未找到发布合并提交：请用 git merge --no-ff Develop 合并，并把中文 changelog 写在合并提交信息里'
+          }
+
+          # 取完整提交信息；若仍是 git 默认合并标题则只保留正文
+          $text = ((git log -1 --pretty=%B $merge) -join "`n").Trim()
+          if ($text -match '(?s)^Merge (branch|pull request)[^\r\n]*\r?\n\s*\r?\n(?<body>.+)$') {
+            $text = $Matches['body'].Trim()
+          }
+          if ($text -match '^Merge (branch|pull request)') {
+            throw "合并提交 $merge 仍是默认标题，请把中文 changelog 写入合并提交信息"
+          }
+          if (-not $text) { throw "合并提交 $merge 的提交信息为空" }
+
+          # 首行是四段版本号时，校验与 ICE.csproj 一致
+          $first = ($text -split "\r?\n")[0].Trim()
+          if ($first -match '^\d+\.\d+\.\d+\.\d+$' -and $first -ne $env:VERSION) {
+            throw "合并提交里的版本 $first 与 ICE.csproj 的版本 $env:VERSION 不一致"
+          }
+
+          "text<<CHANGELOG_EOF" >> $env:GITHUB_OUTPUT
+          $text >> $env:GITHUB_OUTPUT
+          "CHANGELOG_EOF" >> $env:GITHUB_OUTPUT
+
       - name: Update repo.json
         if: steps.check.outputs.publish == 'true'
         shell: pwsh
+        env:
+          CHANGELOG_TEXT: ${{ steps.changelog.outputs.text }}
         run: |
           $ver  = '${{ steps.ver.outputs.version }}'
           $url  = "https://github.com/${{ github.repository }}/releases/download/v$ver/latest.zip"
@@ -96,6 +144,18 @@ jobs:
           $t = [regex]::Replace($t, '("DownloadLinkInstall"\s*:\s*)"[^"]*"', ('${1}"' + $url + '"'))
           $t = [regex]::Replace($t, '("DownloadLinkUpdate"\s*:\s*)"[^"]*"',  ('${1}"' + $url + '"'))
           $t = [regex]::Replace($t, '("LastUpdate"\s*:\s*)\d+',              ('${1}'   + $now))
+
+          # 合并提交信息 -> JSON 字符串，定点写入 Changelog
+          $cl = $env:CHANGELOG_TEXT.Trim()
+          if (-not $cl) { throw 'changelog 为空，已中止发布' }
+          $escaped = $cl.Replace('\', '\\').Replace('"', '\"').Replace("`r`n", '\n').Replace("`n", '\n').Replace("`r", '\n')
+          if ($t -notmatch '"Changelog"\s*:') { throw 'repo.json 缺少 Changelog 字段' }
+          $replacement = '${1}"' + $escaped.Replace('$', '$$') + '"'
+          $t = [regex]::Replace($t, '("Changelog"\s*:\s*)"(?:[^"\\]|\\.)*"', $replacement)
+
+          # 写回前校验 JSON 仍然合法
+          $null = $t | ConvertFrom-Json
+
           Set-Content -Path $path -Value $t -NoNewline -Encoding utf8
           Get-Content $path
 
@@ -105,9 +165,9 @@ jobs:
         with:
           tag_name: v${{ steps.ver.outputs.version }}
           name: v${{ steps.ver.outputs.version }}
+          body: ${{ steps.changelog.outputs.text }}
           files: ${{ steps.pkg.outputs.path }}
           fail_on_unmatched_files: true
-          generate_release_notes: true
 
       - name: Commit repo.json to Main-Branch
         if: steps.check.outputs.publish == 'true'

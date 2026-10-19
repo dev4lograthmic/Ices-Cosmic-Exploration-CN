@@ -1,6 +1,6 @@
 [
   {
-    "Author": "Ice / 汉化：dev4lograthmic",
+    "Author": "作者：Ice / 汉化：dev4lograthmic",
     "Name": "Ice's Cosmic Exploration (ICE)",
     "Punchline": "欢迎来到月球的暗面～",
     "Description": "满足你宇宙探索需求的一站式方案！本插件旨在成为一站式来源，既能帮你刷取采集与制作的宇宙工具，也能帮你把每个职业的技巧点刷到 50 万，去换你想要的那台炫酷黑色机甲～。\n\n- 能为你重抽任务，直到刷出你想刷的那个\n- 能工巧匠可在 Artisan 的支持下实现全自动\n- 捕鱼人可在 AutoHook 与 Navmesh 的支持下实现全自动\n- 园艺工/采矿工只需要 Navmesh，因为采集功能已直接内置在插件中 <3。\n- 设置你想用宇宙信用点从商店购买的物品，或用行星票据在宇宙好运道转盘上碰碰运气！",
@@ -10,13 +10,19 @@
     "InternalName": "ICE",
     "RepoUrl": "https://github.com/dev4lograthmic/Ices-Cosmic-Exploration-CN",
     "DownloadCount": 0,
-    "LastUpdate": 1792043514,
-    "DownloadLinkInstall": "https://github.com/dev4lograthmic/Ices-Cosmic-Exploration-CN/releases/download/v1.0.0.3/latest.zip",
-    "DownloadLinkUpdate": "https://github.com/dev4lograthmic/Ices-Cosmic-Exploration-CN/releases/download/v1.0.0.3/latest.zip",
-    "AssemblyVersion": "1.0.0.3",
+    "LastUpdate": 0,
+    "DownloadLinkInstall": "",
+    "DownloadLinkUpdate": "",
+    "AssemblyVersion": "",
     "ApplicableVersion": "any",
     "DalamudApiLevel": "15",
-    "Changelog": "汉化版首次发布",
-    "IconUrl": "https://raw.githubusercontent.com/dev4lograthmic/Ices-Cosmic-Exploration-CN/Main-Branch/ICE/Resources/Icon.png"
+    "Changelog": "",
+    "IconUrl": "https://raw.githubusercontent.com/dev4lograthmic/Ices-Cosmic-Exploration-CN/Main-Branch/ICE/Resources/Icon.png",
+    "ImageUrls": [
+      "https://s3.puni.sh/media/plugin/70/image-48mo2sqihqq.png",
+      "https://s3.puni.sh/media/plugin/70/image-qvicotsqoah.png",
+      "https://s3.puni.sh/media/plugin/70/image-n7yejk60hc.png",
+      "https://s3.puni.sh/media/plugin/70/image-tnps9neyhx.png"
+    ]
   }
 ]
